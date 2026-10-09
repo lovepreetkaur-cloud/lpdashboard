@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Teacher & Leadership Dashboard</title>
+  <style>
+    :root {
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text: #202124;
+      --border: #e0e0e0;
+      --primary: #1a73e8;
+
+      /* Class & Schedule Colors */
+      --color-morrison: #8e24aa;
+      --color-dhoy: #ff9800;
+      --color-pta: #82c91e;
+      --color-eng-13: #82c91e;
+      --color-eng-23: #4dabf7;
+      --color-eng-26: #22b8cf;
+      --color-eng-32: #b86e00;
+      --color-eng-42: #ff7588;
+
+      /* Status Colors */
+      --urgent-bg: #fce8e6;
+      --urgent-text: #c5221f;
+      --progress-bg: #fef7e0;
+      --progress-text: #b06000;
+      --completed-bg: #e6f4ea;
+      --completed-text: #137333;
+      --notstarted-bg: #f1f3f4;
+      --notstarted-text: #5f6368;
+      --stale-bg: #fff4e6;
+      --stale-text: #d9480f;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+      line-height: 1.4;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      background: var(--card-bg);
+      padding: 20px 24px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+
+    .header-title h1 {
+      margin: 0;
+      font-size: 24px;
+      color: var(--primary);
+    }
+
+    .header-title p {
+      margin: 4px 0 0 0;
+      font-size: 14px;
+      color: #5f6368;
+    }
+
+    .widget-box {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .widget {
+      background: #f1f3f4;
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .widget .val {
+      font-size: 15px;
+      font-weight: bold;
+      color: var(--primary);
+    }
+
+    .widget .lbl {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: #5f6368;
+    }
+
+    /* Focus Mode Bar */
+    .focus-mode-card {
+      background: #eef3fc;
+      border: 1px solid #cce0ff;
+      border-radius: 12px;
+      padding: 12px 18px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .focus-mode-title {
+      font-weight: bold;
+      font-size: 14px;
+      color: #1a73e8;
+    }
+
+    .focus-btn-group {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .focus-btn {
+      padding: 6px 14px;
+      border: 1px solid #1a73e8;
+      border-radius: 20px;
+      background: #ffffff;
+      color: #1a73e8;
+      font-size: 12px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .focus-btn.active {
+      background: #1a73e8;
+      color: #ffffff;
+    }
+
+    /* Scratchpad Quick Capture Area */
+    .scratchpad-card {
+      background: #fff9db;
+      border: 2px dashed #f59f00;
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+    }
+
+    .scratchpad-card h3 {
+      margin: 0 0 8px 0;
+      color: #b57600;
+      font-size: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .scratchpad-input {
+      width: 100%;
+      border: 1px solid #ffe066;
+      border-radius: 6px;
+      padding: 10px;
+      font-size: 13px;
+      font-family: inherit;
+      box-sizing: border-box;
+      resize: vertical;
+      min-height: 55px;
+      background: #ffffff;
+    }
+
+    .scratchpad-input:focus {
+      outline: none;
+      border-color: #f59f00;
+      box-shadow: 0 0 0 2px rgba(245, 159, 0, 0.2);
+    }
+
+    /* Timetable & Events Visual Card */
+    .timetable-card {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+
+    .tt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+    }
+
+    .tt-header h3 {
+      margin: 0;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tt-toggle-btn {
+      background: #e8f0fe;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 13px;
+    }
+
+    .tt-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .tt-table th, .tt-table td {
+      border: 1px solid #c0c0c0;
+      padding: 8px;
+      vertical-align: middle;
+    }
+
+    .tt-table th {
+      background: #f1f3f4;
+      font-weight: bold;
+    }
+
+    /* Auto Highlight Live Period */
+    .cell-now {
+      box-shadow: inset 0 0 0 3px #1a73e8 !important;
+      animation: pulse-border 2s infinite;
+      position: relative;
+    }
+
+    @keyframes pulse-border {
+      0% { box-shadow: inset 0 0 0 3px #1a73e8; }
+      50% { box-shadow: inset 0 0 0 4px #d93025; }
+      100% { box-shadow: inset 0 0 0 3px #1a73e8; }
+    }
+
+    .cell-break { background: #e0e0e0; font-weight: bold; color: #495057; }
+    .cell-personal-lunch { background: #c2bbbb; color: #ffffff; font-weight: bold; }
+    .cell-duty { background: #ffe8cc; color: #d9480f; font-weight: bold; border: 2px solid #ff9800 !important; }
+    .cell-meeting { background: #fff3bf; color: #b57600; font-weight: bold; border: 1.5px dashed #f59f00; }
+    .cell-13 { background: #a9e34b; font-weight: bold; color: #103000; }
+    .cell-23 { background: #a5d8ff; font-weight: bold; color: #002b4d; }
+    .cell-26 { background: #66d9e8; font-weight: bold; color: #003740; }
+    .cell-32 { background: #d97706; color: #fff; font-weight: bold; }
+    .cell-42 { background: #ff7588; color: #fff; font-weight: bold; }
+    .cell-ctp { background: #ffe066; font-weight: bold; }
+    .cell-pshe { background: #f1f3f4; font-style: italic; }
+
+    /* Events Section */
+    .events-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .events-box {
+      background: #eef3fc;
+      border: 1px solid #cce0ff;
+      border-radius: 12px;
+      padding: 16px;
+    }
+
+    .events-box h4 {
+      margin: 0 0 10px 0;
+      color: #1a73e8;
+      font-size: 15px;
+    }
+
+    .event-item {
+      background: #ffffff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      margin-bottom: 6px;
+      font-size: 13px;
+      border-left: 4px solid var(--primary);
+    }
+
+    /* Banners & Affirmations */
+    .today-banner {
+      background: #e8f0fe;
+      border: 2px solid var(--primary);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+
+    .stale-banner {
+      background: var(--stale-bg);
+      border: 2px solid var(--stale-text);
+      border-radius: 12px;
+      padding: 16px 20px;
+      margin-bottom: 20px;
+    }
+
+    .today-banner h3, .stale-banner h3 { margin: 0 0 10px 0; font-size: 16px; }
+
+    .affirmation-card {
+      background: #fef8e7;
+      border: 1px solid #fce8e6;
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+    }
+
+    .affirmation-card h3 { margin: 0 0 12px 0; color: #b06000; font-size: 16px; }
+
+    .affirmation-list { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+
+    .affirmation-item {
+      background: #ffffff;
+      padding: 8px 12px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-left: 4px solid #f59f00;
+      font-size: 14px;
+    }
+
+    .controls-card, .brain-dump-card {
+      background: var(--card-bg);
+      padding: 18px 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+
+    .search-filter-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+
+    .search-input {
+      flex: 1; min-width: 200px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px;
+    }
+
+    .filter-btn {
+      padding: 6px 12px; border: 1px solid var(--border); border-radius: 16px; background: #f1f3f4; font-size: 12px; font-weight: 600; cursor: pointer;
+    }
+
+    .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
+    .backup-row { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+
+    .input-group { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .input-group input, .input-group select {
+      padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none;
+    }
+
+    .input-group input[type="text"] { flex: 1; min-width: 200px; }
+
+    .input-group button {
+      background: var(--primary); color: white; border: none; padding: 10px 18px; border-radius: 6px; font-weight: bold; cursor: pointer;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin: 28px 0 12px 0;
+      padding-bottom: 6px;
+      border-bottom: 2px solid var(--border);
+      cursor: pointer;
+      user-select: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .section-title:hover {
+      color: var(--primary);
+    }
+
+    .task-card {
+      background: var(--card-bg); border-radius: 8px; padding: 14px 18px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border-left: 6px solid #dadce0;
+    }
+
+    .task-card.role-PTA { border-left-color: var(--color-pta); }
+    .task-card.role-DHOY { border-left-color: var(--color-dhoy); }
+    .task-card.role-House { border-left-color: var(--color-morrison); }
+    .task-card.class-13 { border-left-color: var(--color-eng-13); }
+    .task-card.class-23 { border-left-color: var(--color-eng-23); }
+    .task-card.class-26 { border-left-color: var(--color-eng-26); }
+    .task-card.class-32 { border-left-color: var(--color-eng-32); }
+    .task-card.class-42 { border-left-color: var(--color-eng-42); }
+
+    .task-card.urgent-border {
+      box-shadow: 0 0 0 2px var(--urgent-text), 0 2px 6px rgba(197, 34, 31, 0.15); background-color: #fff9f8;
+    }
+
+    .task-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .task-info { flex: 1; }
+    .task-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+    .task-meta { font-size: 12px; color: #5f6368; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .worktype-tag { background: #e9ecef; color: #495057; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+    .created-tag { font-size: 11px; color: #888; font-style: italic; }
+
+    .task-notes-area { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--border); }
+    .notes-input {
+      width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 8px; font-size: 13px; font-family: inherit; box-sizing: border-box; resize: vertical; min-height: 38px; background: #fafafa;
+    }
+    .notes-input:focus { background: #ffffff; border-color: var(--primary); outline: none; }
+
+    .action-btn { color: #5f6368; cursor: pointer; font-size: 12px; border: none; background: #f1f3f4; padding: 4px 8px; border-radius: 4px; margin-left: 2px; }
+    .action-btn:hover { background: #e0e0e0; color: #202124; }
+    .snooze-btn { color: var(--primary); background: #e8f0fe; font-weight: 600; }
+    .stamp-btn { background: #e6f4ea; color: #137333; font-weight: 600; }
+
+    .chip { padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; user-select: none; display: inline-block; text-align: center; min-width: 90px; }
+    .chip.urgent { background: var(--urgent-bg); color: var(--urgent-text); }
+    .chip.in-progress { background: var(--progress-bg); color: var(--progress-text); }
+    .chip.completed { background: var(--completed-bg); color: var(--completed-text); text-decoration: line-through; opacity: 0.7; }
+    .chip.not-started { background: var(--notstarted-bg); color: var(--notstarted-text); }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="header-title">
+      <h1>Personal Leadership & Teaching Dashboard</h1>
+      <p>Lovepreet (DHoY) Schedule & Complete State Backup</p>
+    </div>
+    <div class="widget-box">
+      <div class="widget">
+        <div class="val" id="current-date">--</div>
+        <div class="lbl">Today's Date</div>
+      </div>
+      <div class="widget">
+        <div class="val" id="next-deadline">--</div>
+        <div class="lbl">Closest Deadline</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Focus Preset Bar -->
+  <div class="focus-mode-card">
+    <div class="focus-mode-title">⚡ Focus Preset Modes:</div>
+    <div class="focus-btn-group">
+      <button class="focus-btn active" onclick="setFocusMode('ALL', this)">🌐 All Views</button>
+      <button class="focus-btn" onclick="setFocusMode('TEACHING', this)">📖 Teaching Mode</button>
+      <button class="focus-btn" onclick="setFocusMode('LEADERSHIP', this)">🏫 Leadership Mode</button>
+      <button class="focus-btn" onclick="setFocusMode('MORNING', this)">☀️ Morning Rush View</button>
+    </div>
+  </div>
+
+  <!-- Quick Scratchpad Area -->
+  <div class="scratchpad-card" id="scratchpad-section">
+    <h3>
+      <span>📌 Quick Scratchpad (Unsorted Notes)</span>
+      <div>
+        <button class="action-btn snooze-btn" onclick="convertScratchpadToTask()">+ Convert Selected to Task</button>
+        <button class="action-btn" onclick="clearScratchpad()">Clear Note</button>
+      </div>
+    </h3>
+    <textarea 
+      id="scratchpad-text" 
+      class="scratchpad-input" 
+      placeholder="Type any quick thoughts, phone numbers, or raw notes here. Auto-saves automatically as you type..."
+      oninput="saveScratchpad()"
+    ></textarea>
+  </div>
+
+  <!-- Events Calendar Section -->
+  <div class="events-grid" id="events-section">
+    <div class="events-box">
+      <h4>📌 School Events Today</h4>
+      <div id="events-today-container"></div>
+    </div>
+    <div class="events-box">
+      <h4>🗓️ School Events This Week</h4>
+      <div id="events-week-container"></div>
+    </div>
+  </div>
+
+  <!-- Full Week Timetable Visual -->
+  <div class="timetable-card" id="timetable-section">
+    <div class="tt-header">
+      <h3>📚 Teaching & Duty Schedule — <span id="week-label" style="color:var(--primary);">Week A</span></h3>
+      <button class="tt-toggle-btn" onclick="toggleWeekView()">Switch to Week <span id="toggle-week-text">B</span></button>
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="tt-table" id="timetable-table">
+        <!-- Rendered dynamically -->
+      </table>
+    </div>
+  </div>
+
+  <!-- Due Today & Overdue Banner -->
+  <div class="today-banner" id="today-banner">
+    <h3>📅 Due Today & Overdue Items</h3>
+    <div id="today-container"></div>
+  </div>
+
+  <!-- Dynamic 7+ Days Floating Task Reminder Banner -->
+  <div class="stale-banner" id="stale-banner" style="display:none;">
+    <h3>⚠️ Floating Tasks (>7 Days Old — No Due Date Assigned)</h3>
+    <div id="stale-container"></div>
+  </div>
+
+  <!-- Weekly Student Affirmation Widget -->
+  <div class="affirmation-card" id="affirmations-section">
+    <h3>🌟 Weekly Student Affirmations</h3>
+    <div class="input-group">
+      <input type="text" id="aff-name" placeholder="Student Name & Class/House (e.g. Amelia 4H)" />
+      <input type="text" id="aff-reason" placeholder="Reason for Affirmation..." />
+      <button onclick="addAffirmation()">+ Add Affirmation</button>
+    </div>
+    <div class="affirmation-list" id="affirmation-list"></div>
+  </div>
+
+  <!-- Search & Filter Bar -->
+  <div class="controls-card" id="controls-section">
+    <div class="search-filter-row">
+      <input type="text" id="search-bar" class="search-input" placeholder="🔍 Search tasks, students, or notes..." oninput="render()" />
+      <button class="filter-btn active" onclick="setFilter('ALL', this)">All Roles</button>
+      <button class="filter-btn" onclick="setFilter('PTA', this)">PTA</button>
+      <button class="filter-btn" onclick="setFilter('English', this)">English</button>
+      <button class="filter-btn" onclick="setFilter('DHOY', this)">DHOY F.1</button>
+      <button class="filter-btn" onclick="setFilter('House', this)">Morrison House</button>
+    </div>
+    <div class="backup-row">
+      <button class="action-btn" onclick="toggleShowCompleted()">📁 <span id="archive-toggle-text">Show Completed / Archive</span></button>
+      <button class="action-btn" onclick="exportData()">📤 Export FULL Backup (All Data)</button>
+      <button class="action-btn" onclick="importData()">📥 Import Backup</button>
+      <input type="file" id="import-file" style="display:none" onchange="handleFileImport(event)" />
+    </div>
+  </div>
+
+  <!-- Quick Brain Dump Tool -->
+  <div class="brain-dump-card" id="braindump-section">
+    <h3>💡 Quick Brain Dump / New Task</h3>
+    <div class="input-group">
+      <input type="text" id="new-task-text" placeholder="Type task or raw info here..." />
+      <select id="new-task-role">
+        <option value="PTA">PTA Coordinator</option>
+        <option value="ENG-1.3">ENG 1.3</option>
+        <option value="ENG-2.3">ENG 2.3</option>
+        <option value="ENG-2.6">ENG 2.6</option>
+        <option value="ENG-3.2">ENG 3.2</option>
+        <option value="ENG-4.2">ENG 4.2</option>
+        <option value="DHOY">Deputy Head of Year (F.1)</option>
+        <option value="House">Head of Morrison House</option>
+      </select>
+      <select id="new-task-worktype">
+        <option value="Admin & Paperwork">📄 Admin & Paperwork</option>
+        <option value="Event Attendance">🏟️ Event Attendance</option>
+        <option value="Liaison & Email">💬 Liaison & Email</option>
+        <option value="SEQTA Logging">📧 SEQTA / Logging</option>
+        <option value="Pastoral Care">💛 Pastoral Care</option>
+        <option value="Physical Duty">🚶 Physical Duty</option>
+        <option value="Marking & Grading">✏️ Marking & Grading</option>
+      </select>
+      <input type="date" id="new-task-date" />
+      <button onclick="addTask()">Add Task</button>
+    </div>
+  </div>
+
+  <!-- Priority Alert Section -->
+  <div id="urgent-section" style="display: none;">
+    <div class="section-title" style="color: var(--urgent-text);">
+      🚨 Urgent & Next Up (Auto-Prioritized)
+    </div>
+    <div id="urgent-container"></div>
+  </div>
+
+  <!-- Role Categories with Collapsible Accordions -->
+  <div id="role-pta-block">
+    <div class="section-title" onclick="toggleSection('pta-container')">
+      <span>📌 PTA Coordinator</span> <span style="font-size:12px;">▼ Toggle</span>
+    </div>
+    <div id="pta-container"></div>
+  </div>
+
+  <div id="role-english-block">
+    <div class="section-title" onclick="toggleSection('english-container')">
+      <span>📚 Teacher of English — Marking</span> <span style="font-size:12px;">▼ Toggle</span>
+    </div>
+    <div id="english-container"></div>
+  </div>
+
+  <div id="role-dhoy-block">
+    <div class="section-title" onclick="toggleSection('dhoy-container')">
+      <span>🏫 Deputy Head of Year (F.1)</span> <span style="font-size:12px;">▼ Toggle</span>
+    </div>
+    <div id="dhoy-container"></div>
+  </div>
+
+  <div id="role-house-block">
+    <div class="section-title" onclick="toggleSection('house-container')">
+      <span>🏆 Head of Morrison House</span> <span style="font-size:12px;">▼ Toggle</span>
+    </div>
+    <div id="house-container"></div>
+  </div>
+</div>
+
+<script>
+  const now = new Date();
+  const todayStr = now.toISOString().split('T')[0];
+  let currentWeekView = 'A';
+  let currentFocusMode = 'ALL';
+
+  function formatDateShort(dateStr) {
+    if (!dateStr) return '';
+    const parts = dateStr.split('-');
+    if (parts.length !== 3) return dateStr;
+    const d = new Date(parts[0], parts[1] - 1, parts[2]);
+    return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  // Collapsible Accordion Toggle
+  function toggleSection(containerId) {
+    const el = document.getElementById(containerId);
+    if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+  }
+
+  // Fixed Focus Presets Logic (Does not get reset by render)
+  function setFocusMode(mode, btn) {
+    currentFocusMode = mode;
+    document.querySelectorAll('.focus-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const showAll = mode === 'ALL';
+    const isTeaching = mode === 'TEACHING';
+    const isLeadership = mode === 'LEADERSHIP';
+    const isMorning = mode === 'MORNING';
+
+    // Role blocks
+    document.getElementById('role-english-block').style.display = (showAll || isTeaching) ? 'block' : 'none';
+    document.getElementById('role-pta-block').style.display = (showAll || isLeadership) ? 'block' : 'none';
+    document.getElementById('role-dhoy-block').style.display = (showAll || isLeadership) ? 'block' : 'none';
+    document.getElementById('role-house-block').style.display = (showAll || isLeadership) ? 'block' : 'none';
+
+    // Morning Rush Hiding
+    document.getElementById('timetable-section').style.display = isMorning ? 'none' : 'block';
+    document.getElementById('braindump-section').style.display = isMorning ? 'none' : 'block';
+    document.getElementById('affirmations-section').style.display = isMorning ? 'none' : 'block';
+    document.getElementById('controls-section').style.display = isMorning ? 'none' : 'block';
+  }
+
+  // Scratchpad Logic & Convert to Task
+  let scratchpadNote = localStorage.getItem('teacher_dashboard_scratchpad') || '';
+
+  function loadScratchpad() {
+    document.getElementById('scratchpad-text').value = scratchpadNote;
+  }
+
+  function saveScratchpad() {
+    scratchpadNote = document.getElementById('scratchpad-text').value;
+    localStorage.setItem('teacher_dashboard_scratchpad', scratchpadNote);
+  }
+
+  function clearScratchpad() {
+    if (confirm("Clear your quick scratchpad notes?")) {
+      scratchpadNote = '';
+      document.getElementById('scratchpad-text').value = '';
+      localStorage.removeItem('teacher_dashboard_scratchpad');
+    }
+  }
+
+  function convertScratchpadToTask() {
+    const textarea = document.getElementById('scratchpad-text');
+    const selectedText = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd).trim() || textarea.value.trim();
+    if (!selectedText) {
+      alert("Please type or highlight a note in the scratchpad to convert!");
+      return;
+    }
+
+    const newTask = {
+      id: Date.now(),
+      title: selectedText.split('\n')[0],
+      role: 'DHOY',
+      subClass: '',
+      workType: 'Admin & Paperwork',
+      date: todayStr,
+      createdDate: todayStr,
+      status: 'not-started',
+      notes: selectedText
+    };
+
+    tasks.push(newTask);
+    saveTasks();
+    alert("Converted into a DHOY task due today!");
+  }
+
+  // One-Click Stamp Action Generator
+  function appendStamp(id, stampText) {
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+      const timeTag = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const stamp = `\n[${stampText} @ ${timeTag}]`;
+      task.notes = (task.notes || '') + stamp;
+      saveTasks();
+    }
+  }
+
+  // 100% Accurate Confirmed Staff Calendar Data
+  const schoolEvents = [
+    { date: "2026-10-05", title: "SWT Meeting / Coffee Meeting F.1 & 2 / HKSSF Swimming" },
+    { date: "2026-10-06", title: "KMS Survey (F.4) / Coffee Meeting F.3-6 / HKSSF Swimming" },
+    { date: "2026-10-07", title: "Assembly / 1st Progress Report LOA & Effort Grade Input" },
+    { date: "2026-10-08", title: "Inter-house Badminton Competition (After School)" },
+    { date: "2026-10-09", title: "PTA Teachers Meeting Presentation & Australia Study Tour" },
+    { date: "2026-10-10", title: "Admission Briefing (Back-up Day) / UK Study Tour" },
+    { date: "2026-10-12", title: "Student Council Campaign Day" },
+    { date: "2026-10-13", title: "Student Council Campaign Day" },
+    { date: "2026-10-14", title: "Life-wide Learning Week (F.1-F.6)" },
+    { date: "2026-10-15", title: "Life-wide Learning Week (F.1-F.6)" },
+    { date: "2026-10-16", title: "Life-wide Learning Week (F.1-F.6)" },
+    { date: "2026-10-23", title: "1st Progress Report SEQTA Release" },
+    { date: "2026-10-26", title: "Student-Teacher Conference (PM)" },
+    { date: "2026-10-27", title: "Student-Teacher Conference (PM) / KMS Survey (F.3)" },
+    { date: "2026-10-28", title: "Assembly / Academic Meeting / Student Council Debate" },
+    { date: "2026-10-30", title: "Parent-Teacher Conference (Whole Day)" },
+    { date: "2026-10-31", title: "Parent-Teacher Conference (Whole Day)" },
+    { date: "2026-11-02", title: "HKSSF Cross Country / Student Council Election" },
+    { date: "2026-11-03", title: "Inter-house Volleyball Competition (Lunch) / Student Council Election" },
+    { date: "2026-11-04", title: "Department Meeting / Inter-house Volleyball Competition (Lunch)" },
+    { date: "2026-11-05", title: "International Fun Fair Preparation (Half Day School)" },
+    { date: "2026-11-06", title: "International Fun Fair 2026 / PTA EXCO Meeting" },
+    { date: "2026-11-07", title: "Staff Development Day (No School for Students)" },
+    { date: "2026-11-09", title: "SWT Meeting / Inter-house Volleyball Competition (Lunch)" },
+    { date: "2026-11-10", title: "KMS Survey (F.2)" },
+    { date: "2026-11-11", title: "Assembly / Casual Dress Day (Watoto)" },
+    { date: "2026-11-12", title: "Inter-house Drama Competition (After School)" },
+    { date: "2026-11-13", title: "Influenza Seasonal Vaccination" }
+  ];
+
+  const timetableData = {
+    A: [
+      { time: "8:10-8:35", start: "08:10", end: "08:35", mon: "CTP 1", tue: "SB", wed: "", thu: "CTP 1", fri: "" },
+      { time: "8:40-9:35", start: "08:40", end: "09:35", mon: "3.2 (103)", tue: "PSHE (F1 2/F)", wed: "2.3 (103)", thu: "4.2 (514B)", fri: "4.2 (213B)" },
+      { time: "9:40-10:35", start: "09:40", end: "10:35", mon: "2.6 (103)", tue: "2.3 (103)", wed: "2.6 (103)", thu: "4.2 (514B)", fri: "2.3 (104)" },
+      { time: "10:35-10:55", start: "10:35", end: "10:55", mon: "RECESS", tue: "RECESS", wed: "RECESS", thu: "RECESS", fri: "RECESS" },
+      { time: "10:55-11:50", start: "10:55", end: "11:50", mon: "2.3 (104)", tue: "", wed: "4.2 (103)", thu: "", fri: "1.3 (103)" },
+      { time: "11:55-12:50", start: "11:55", end: "12:50", mon: "Personal Lunch Time", tue: "Personal Lunch Time", wed: "Personal Lunch Time", thu: "Personal Lunch Time", fri: "Personal Lunch Time" },
+      { time: "12:50-1:55", start: "12:50", end: "13:55", mon: "LUNCH (Paul Duty)", tue: "LUNCH 🚶 Lovepreet Duty (F1 Hall)", wed: "LUNCH (Paul Duty)", thu: "LUNCH 🚶 Lovepreet Duty (F1 Hall)", fri: "LUNCH (Paul Duty)" },
+      { time: "1:55-2:50", start: "13:55", end: "14:50", mon: "Bi-weekly F1 HOY Meeting", tue: "2.6 (103)", wed: "3.2 (103)", thu: "3.2 (103)", fri: "" },
+      { time: "2:55-3:50", start: "14:55", end: "15:50", mon: "", tue: "1.3 (103)", wed: "ASSEMBLY / STAFF", thu: "2.6 (103)", fri: "3.2 (103)" },
+      { time: "3:55-4:00", start: "15:55", end: "16:00", mon: "CTP 2", tue: "CTP 2", wed: "CTP 2", thu: "CTP 2", fri: "CTP 2" }
+    ],
+    B: [
+      { time: "8:10-8:35", start: "08:10", end: "08:35", mon: "CTP 1", tue: "SB", wed: "", thu: "CTP 1", fri: "" },
+      { time: "8:40-9:35", start: "08:40", end: "09:35", mon: "4.2 (213B)", tue: "PSHE (F1 2/F)", wed: "4.2 (514B)", thu: "1.3 (103)", fri: "1.3 (103)" },
+      { time: "9:40-10:35", start: "09:40", end: "10:35", mon: "3.2 (103)", tue: "2.3 (104)", wed: "", thu: "3.2 (103)", fri: "" },
+      { time: "10:35-10:55", start: "10:35", end: "10:55", mon: "RECESS", tue: "RECESS", wed: "RECESS", thu: "RECESS", fri: "RECESS" },
+      { time: "10:55-11:50", start: "10:55", end: "11:50", mon: "2.6 (103)", tue: "3.2 (103)", wed: "2.6 (103)", thu: "2.6 (103)", fri: "2.3 (104)" },
+      { time: "11:55-12:50", start: "11:55", end: "12:50", mon: "Personal Lunch Time", tue: "Personal Lunch Time", wed: "Personal Lunch Time", thu: "Personal Lunch Time", fri: "Personal Lunch Time" },
+      { time: "12:50-1:55", start: "12:50", end: "13:55", mon: "LUNCH 🚶 Lovepreet Duty (F1 Hall)", tue: "LUNCH 🚶 Lovepreet Duty (F1 Hall)", wed: "LUNCH (Paul Duty)", thu: "LUNCH (Paul Duty)", fri: "LUNCH 🚶 Lovepreet Duty (F1 Hall)" },
+      { time: "1:55-2:50", start: "13:55", end: "14:50", mon: "2.3 (104)", tue: "4.2 (103)", wed: "3.2 (103)", thu: "2.3 (104)", fri: "" },
+      { time: "2:55-3:50", start: "14:55", end: "15:50", mon: "", tue: "4.2 (103)", wed: "ASSEMBLY / STAFF", thu: "4.2 (103)", fri: "2.6 (103)" },
+      { time: "3:55-4:00", start: "15:55", end: "16:00", mon: "CTP 2", tue: "CTP 2", wed: "CTP 2", thu: "CTP 2", fri: "CTP 2" }
+    ]
+  };
+
+  const initialTasks = [
+    { id: 1, title: "Signed 1st EXCO Minutes to Mr. Lau", role: "PTA", subClass: "", workType: "Admin & Paperwork", date: "2026-10-12", createdDate: "2026-10-01", status: "urgent", notes: "Find Amelia (4H IGCSE 17) -> Give dad to sign -> Collect back -> Hand to Mr. Lau" },
+    { id: 2, title: "PTA Teachers Meeting Presentation", role: "PTA", subClass: "", workType: "Event Attendance", date: "2026-10-09", createdDate: "2026-10-01", status: "in-progress", notes: "Update on plan for the year & IFF (Parents day in SEM 2)" },
+    { id: 3, title: "Book meeting room with Derek", role: "PTA", subClass: "", workType: "Liaison & Email", date: "2026-11-05", createdDate: "2026-10-02", status: "not-started", notes: "Prep for PTA EXCO Meeting" },
+    { id: 4, title: "Make PPT & Agenda for EXCO Meeting", role: "PTA", subClass: "", workType: "Admin & Paperwork", date: "2026-11-05", createdDate: "2026-10-02", status: "not-started", notes: "Prep for PTA EXCO Meeting" },
+    { id: 5, title: "Remind parents via email & WhatsApp", role: "PTA", subClass: "", workType: "Liaison & Email", date: "2026-11-05", createdDate: "2026-10-02", status: "not-started", notes: "Prep for PTA EXCO Meeting" },
+    { id: 6, title: "Send minutes template to Richard", role: "PTA", subClass: "", workType: "Liaison & Email", date: "2026-11-05", createdDate: "2026-10-02", status: "not-started", notes: "Prep for PTA EXCO Meeting" },
+    { id: 7, title: "PTA EXCO Meeting Discussion", role: "PTA", subClass: "", workType: "Event Attendance", date: "2026-11-06", createdDate: "2026-10-02", status: "not-started", notes: "Ask IFF prep (Booth # & reply to Andrew Koo)" },
+    { id: 8, title: "Speaking Test", role: "English", subClass: "class-13", workType: "Marking & Grading", date: "", createdDate: "2026-09-25", status: "in-progress", notes: "Class 1.3" },
+    { id: 9, title: "Short Story", role: "English", subClass: "class-23", workType: "Marking & Grading", date: "", createdDate: "2026-09-20", status: "not-started", notes: "Class 2.3 - Not needed for LOA" },
+    { id: 10, title: "Short Story", role: "English", subClass: "class-26", workType: "Marking & Grading", date: "", createdDate: "2026-09-20", status: "not-started", notes: "Class 2.6 - Not needed for LOA" },
+    { id: 11, title: "Reading Test (Directed Writing)", role: "English", subClass: "class-32", workType: "Marking & Grading", date: "", createdDate: "2026-09-20", status: "not-started", notes: "Class 3.2 - Not needed for LOA" },
+    { id: 12, title: "SBA & Writing Final (Blog Post)", role: "English", subClass: "class-42", workType: "Marking & Grading", date: "", createdDate: "2026-09-28", status: "in-progress", notes: "Class 4.2 - Savva SBA & Exam stress" },
+    { id: 13, title: "F.1 Pastoral Care & Student Support", role: "DHOY", subClass: "", workType: "Pastoral Care", date: "", createdDate: "2026-09-01", status: "in-progress", notes: "Ongoing support & SEQTA entries" },
+    { id: 14, title: "Morrison House Events & Points", role: "House", subClass: "", workType: "Event Attendance", date: "", createdDate: "2026-09-01", status: "in-progress", notes: "Ongoing coordination" }
+  ];
+
+  let tasks = JSON.parse(localStorage.getItem('teacher_dashboard_tasks_v15')) || initialTasks;
+  let affirmations = JSON.parse(localStorage.getItem('teacher_dashboard_affs_v15')) || [];
+  let currentFilter = 'ALL';
+  let showCompleted = false;
+
+  function saveTasks(reRender = true) {
+    localStorage.setItem('teacher_dashboard_tasks_v15', JSON.stringify(tasks));
+    if (reRender) render();
+  }
+
+  function saveAffirmations() {
+    localStorage.setItem('teacher_dashboard_affs_v15', JSON.stringify(affirmations));
+    renderAffirmations();
+  }
+
+  function toggleWeekView() {
+    currentWeekView = currentWeekView === 'A' ? 'B' : 'A';
+    document.getElementById('week-label').innerText = `Week ${currentWeekView}`;
+    document.getElementById('toggle-week-text').innerText = currentWeekView === 'A' ? 'B' : 'A';
+    renderTimetable();
+  }
+
+  function renderTimetable() {
+    const table = document.getElementById('timetable-table');
+    const rows = timetableData[currentWeekView];
+    const currentDayIdx = now.getDay(); // 1 = Mon, 5 = Fri
+    const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+
+    let html = `
+      <tr>
+        <th style="width:12%;">Time</th>
+        <th style="width:17.6%; ${currentDayIdx===1?'background:#e8f0fe; color:#1a73e8;':''}">MON</th>
+        <th style="width:17.6%; ${currentDayIdx===2?'background:#e8f0fe; color:#1a73e8;':''}">TUE</th>
+        <th style="width:17.6%; ${currentDayIdx===3?'background:#e8f0fe; color:#1a73e8;':''}">WED</th>
+        <th style="width:17.6%; ${currentDayIdx===4?'background:#e8f0fe; color:#1a73e8;':''}">THU</th>
+        <th style="width:17.6%; ${currentDayIdx===5?'background:#e8f0fe; color:#1a73e8;':''}">FRI</th>
+      </tr>
+    `;
+
+    const getClassStyle = (val) => {
+      if (val === "Personal Lunch Time") return "cell-personal-lunch";
+      if (val.includes("Lovepreet Duty")) return "cell-duty";
+      if (val.includes("HOY Meeting")) return "cell-meeting";
+      if (val.includes("1.3")) return "cell-13";
+      if (val.includes("2.3")) return "cell-23";
+      if (val.includes("2.6")) return "cell-26";
+      if (val.includes("3.2")) return "cell-32";
+      if (val.includes("4.2")) return "cell-42";
+      if (val.startsWith("LUNCH") || val === "RECESS") return "cell-break";
+      if (val.includes("CTP") || val.includes("ASSEMBLY") || val === "SB") return "cell-ctp";
+      if (val.includes("PSHE")) return "cell-pshe";
+      return "";
+    };
+
+    rows.forEach(r => {
+      const isCurrentPeriod = currentTimeStr >= r.start && currentTimeStr <= r.end;
+
+      html += `
+        <tr>
+          <td><strong>${r.time}</strong></td>
+          <td class="${getClassStyle(r.mon)} ${currentDayIdx===1 && isCurrentPeriod ? 'cell-now' : ''}">${r.mon}</td>
+          <td class="${getClassStyle(r.tue)} ${currentDayIdx===2 && isCurrentPeriod ? 'cell-now' : ''}">${r.tue}</td>
+          <td class="${getClassStyle(r.wed)} ${currentDayIdx===3 && isCurrentPeriod ? 'cell-now' : ''}">${r.wed}</td>
+          <td class="${getClassStyle(r.thu)} ${currentDayIdx===4 && isCurrentPeriod ? 'cell-now' : ''}">${r.thu}</td>
+          <td class="${getClassStyle(r.fri)} ${currentDayIdx===5 && isCurrentPeriod ? 'cell-now' : ''}">${r.fri}</td>
+        </tr>
+      `;
+    });
+
+    table.innerHTML = html;
+  }
+
+  function renderEvents() {
+    const todayBox = document.getElementById('events-today-container');
+    const weekBox = document.getElementById('events-week-container');
+    todayBox.innerHTML = '';
+    weekBox.innerHTML = '';
+
+    let todayEventsCount = 0;
+    let weekEventsCount = 0;
+
+    const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+    schoolEvents.forEach(e => {
+      if (e.date === todayStr) {
+        todayEventsCount++;
+        todayBox.innerHTML += `<div class="event-item">📌 <strong>${e.title}</strong></div>`;
+      }
+
+      const p = e.date.split('-');
+      const eDate = new Date(p[0], p[1] - 1, p[2]);
+      const diffDays = Math.round((eDate - todayMidnight) / (1000 * 60 * 60 * 24));
+
+      if (diffDays >= 0 && diffDays <= 7) {
+        weekEventsCount++;
+        weekBox.innerHTML += `<div class="event-item">🗓️ <strong>${formatDateShort(e.date)}:</strong> ${e.title}</div>`;
+      }
+    });
+
+    if (todayEventsCount === 0) todayBox.innerHTML = '<div style="font-size:13px; color:#666;">No official school events listed for today.</div>';
+    if (weekEventsCount === 0) weekBox.innerHTML = '<div style="font-size:13px; color:#666;">No upcoming school events in the next 7 days.</div>';
+  }
+
+  function assignDatePrompt(id) {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+    const newDate = prompt("Assign Due Date (YYYY-MM-DD):", todayStr);
+    if (newDate && newDate.trim()) {
+      task.date = newDate.trim();
+      saveTasks();
+    }
+  }
+
+  function resetCreationTimer(id) {
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+      task.createdDate = todayStr;
+      saveTasks();
+    }
+  }
+
+  function addAffirmation() {
+    const nameInput = document.getElementById('aff-name');
+    const reasonInput = document.getElementById('aff-reason');
+    if (!nameInput.value.trim()) return;
+
+    affirmations.push({ id: Date.now(), name: nameInput.value.trim(), reason: reasonInput.value.trim() });
+    nameInput.value = '';
+    reasonInput.value = '';
+    saveAffirmations();
+  }
+
+  function deleteAffirmation(id) {
+    affirmations = affirmations.filter(a => a.id !== id);
+    saveAffirmations();
+  }
+
+  function renderAffirmations() {
+    const list = document.getElementById('affirmation-list');
+    list.innerHTML = '';
+    if (affirmations.length === 0) {
+      list.innerHTML = '<div style="font-size:13px; color:#888;">No affirmations queued for this week.</div>';
+      return;
+    }
+    affirmations.forEach(a => {
+      const item = document.createElement('div');
+      item.className = 'affirmation-item';
+      item.innerHTML = `
+        <div><strong>🌟 ${a.name}</strong> ${a.reason ? '— ' + a.reason : ''}</div>
+        <button class="action-btn" onclick="deleteAffirmation(${a.id})">✓ Done / Clear</button>
+      `;
+      list.appendChild(item);
+    });
+  }
+
+  function setFilter(role, btn) {
+    currentFilter = role;
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  }
+
+  function toggleShowCompleted() {
+    showCompleted = !showCompleted;
+    document.getElementById('archive-toggle-text').innerText = showCompleted ? "Hide Completed Tasks" : "Show Completed / Archive";
+    render();
+  }
+
+  function toggleStatus(id) {
+    const statuses = ['not-started', 'in-progress', 'urgent', 'completed'];
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+      const nextIdx = (statuses.indexOf(task.status) + 1) % statuses.length;
+      task.status = statuses[nextIdx];
+      saveTasks();
+    }
+  }
+
+  function snoozeTask(id, days) {
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+      const baseDate = task.date ? new Date(task.date) : new Date();
+      baseDate.setDate(baseDate.getDate() + days);
+      task.date = baseDate.toISOString().split('T')[0];
+      saveTasks();
+    }
+  }
+
+  function updateNotes(id, text) {
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+      task.notes = text;
+      saveTasks(false);
+    }
+  }
+
+  function editTask(id) {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+    const newTitle = prompt("Edit Task Title:", task.title);
+    if (newTitle === null) return;
+    const newDate = prompt("Edit Due Date (YYYY-MM-DD):", task.date || "");
+    task.title = newTitle.trim() || task.title;
+    task.date = newDate !== null ? newDate.trim() : task.date;
+    saveTasks();
+  }
+
+  function deleteTask(id) {
+    if (confirm("Delete this task?")) {
+      tasks = tasks.filter(t => t.id !== id);
+      saveTasks();
+    }
+  }
+
+  function addTask() {
+    const textInput = document.getElementById('new-task-text');
+    const roleSelect = document.getElementById('new-task-role');
+    const workTypeSelect = document.getElementById('new-task-worktype');
+    const dateInput = document.getElementById('new-task-date');
+
+    if (!textInput.value.trim()) return;
+
+    let selectedRole = roleSelect.value;
+    let subClass = "";
+
+    if (selectedRole.startsWith("ENG-")) {
+      subClass = "class-" + selectedRole.replace("ENG-", "").replace(".", "");
+      selectedRole = "English";
+    }
+
+    const newTask = {
+      id: Date.now(),
+      title: textInput.value.trim(),
+      role: selectedRole,
+      subClass: subClass,
+      workType: workTypeSelect.value,
+      date: dateInput.value,
+      createdDate: todayStr,
+      status: 'not-started',
+      notes: ''
+    };
+
+    tasks.push(newTask);
+    textInput.value = '';
+    dateInput.value = '';
+    saveTasks();
+  }
+
+  function exportData() {
+    const fullBackup = {
+      version: "15.0",
+      exportDate: new Date().toISOString(),
+      user: "Lovepreet (DHoY)",
+      scratchpadNote: scratchpadNote,
+      tasks: tasks,
+      affirmations: affirmations,
+      schoolEvents: schoolEvents,
+      timetableData: timetableData
+    };
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fullBackup, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `full_teacher_dashboard_backup_${formatDateShort(todayStr).replace(/ /g, '_')}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+  }
+
+  function importData() {
+    document.getElementById('import-file').click();
+  }
+
+  function handleFileImport(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      try {
+        const imported = JSON.parse(e.target.result);
+        if (imported.tasks) {
+          tasks = imported.tasks;
+          affirmations = imported.affirmations || [];
+          if (imported.scratchpadNote !== undefined) {
+            scratchpadNote = imported.scratchpadNote;
+            localStorage.setItem('teacher_dashboard_scratchpad', scratchpadNote);
+            loadScratchpad();
+          }
+        } else if (Array.isArray(imported)) {
+          tasks = imported;
+        }
+        saveTasks();
+        saveAffirmations();
+        alert("Full backup imported successfully!");
+      } catch (err) {
+        alert("Invalid backup file.");
+      }
+    };
+    reader.readAsText(file);
+  }
+
+  function render() {
+    const searchQuery = document.getElementById('search-bar').value.toLowerCase();
+    const todayContainer = document.getElementById('today-container');
+    const staleContainer = document.getElementById('stale-container');
+    todayContainer.innerHTML = '';
+    staleContainer.innerHTML = '';
+
+    tasks.sort((a, b) => {
+      if (a.status === 'urgent') return -1;
+      if (b.status === 'urgent') return 1;
+      if (a.date && b.date) return new Date(a.date) - new Date(b.date);
+      if (a.date) return -1;
+      return 1;
+    });
+
+    const containers = {
+      PTA: document.getElementById('pta-container'),
+      English: document.getElementById('english-container'),
+      DHOY: document.getElementById('dhoy-container'),
+      House: document.getElementById('house-container'),
+      urgent: document.getElementById('urgent-container')
+    };
+
+    Object.values(containers).forEach(c => c.innerHTML = '');
+
+    let urgentCount = 0;
+    let todayCount = 0;
+    let staleCount = 0;
+    let closestDeadline = null;
+
+    tasks.forEach(task => {
+      const createdDT = task.createdDate ? new Date(task.createdDate) : now;
+      const daysOld = Math.floor((now - createdDT) / (1000 * 60 * 60 * 24));
+      const isStale = !task.date && daysOld >= 7 && task.status !== 'completed';
+      const isDueTodayOrOverdue = task.date && task.date <= todayStr && task.status !== 'completed';
+      
+      if (isDueTodayOrOverdue) {
+        todayCount++;
+        const todayItem = document.createElement('div');
+        todayItem.style.cssText = "background:#fff; padding:8px 12px; margin-bottom:6px; border-radius:6px; display:flex; justify-content:space-between; align-items:center; font-size:14px; border-left:4px solid #1a73e8;";
+        todayItem.innerHTML = `
+          <div><strong>${task.title}</strong> (${task.role}) ${task.date < todayStr ? '<span style="color:red; font-size:11px;">[OVERDUE]</span>' : ''}</div>
+          <button class="action-btn" onclick="toggleStatus(${task.id})">Mark Done</button>
+        `;
+        todayContainer.appendChild(todayItem);
+      }
+
+      if (isStale) {
+        staleCount++;
+        const staleItem = document.createElement('div');
+        staleItem.style.cssText = "background:#fff; padding:8px 12px; margin-bottom:6px; border-radius:6px; display:flex; justify-content:space-between; align-items:center; font-size:13px; border-left:4px solid #d9480f;";
+        staleItem.innerHTML = `
+          <div><strong>${task.title}</strong> (${task.role}) — <span style="color:#d9480f; font-weight:bold;">Created ${daysOld} days ago</span></div>
+          <div>
+            <button class="action-btn snooze-btn" onclick="assignDatePrompt(${task.id})">📅 Assign Date</button>
+            <button class="action-btn" onclick="resetCreationTimer(${task.id})">⏳ Reset 7 Days</button>
+            <button class="action-btn" onclick="toggleStatus(${task.id})">✓ Done</button>
+          </div>
+        `;
+        staleContainer.appendChild(staleItem);
+      }
+
+      if (currentFilter !== 'ALL' && task.role !== currentFilter) return;
+      if (!showCompleted && task.status === 'completed') return;
+
+      const matchesSearch = task.title.toLowerCase().includes(searchQuery) || 
+                            (task.notes && task.notes.toLowerCase().includes(searchQuery)) ||
+                            (task.workType && task.workType.toLowerCase().includes(searchQuery));
+      if (!matchesSearch) return;
+
+      const card = document.createElement('div');
+      const isUrgent = task.status === 'urgent' || (task.date && (new Date(task.date) - now) / (1000 * 60 * 60 * 24) <= 3 && task.status !== 'completed');
+      
+      card.className = `task-card role-${task.role} ${task.subClass} ${isUrgent ? 'urgent-border' : ''}`;
+      
+      const statusLabels = {
+        'not-started': 'Not Started',
+        'in-progress': 'In Progress',
+        'urgent': '🚨 Urgent',
+        'completed': '✓ Done'
+      };
+
+      card.innerHTML = `
+        <div class="task-header">
+          <div class="task-info">
+            <div class="task-title">${task.title}</div>
+            <div class="task-meta">
+              <span class="worktype-tag">${task.workType || 'General'}</span>
+              <span>${task.date ? '📅 Due: ' + formatDateShort(task.date) : 'No fixed date'}</span>
+              <span class="created-tag">(Created ${formatDateShort(task.createdDate || todayStr)})</span>
+              <button class="action-btn snooze-btn" onclick="snoozeTask(${task.id}, 1)">+1 Day</button>
+              <button class="action-btn snooze-btn" onclick="snoozeTask(${task.id}, 7)">+1 Wk</button>
+              <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'SEQTA Logged')">+SEQTA</button>
+              <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'Email Sent')">+Email</button>
+              <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'Parent Called')">+Call</button>
+            </div>
+          </div>
+          <div>
+            <span class="chip ${task.status}" onclick="toggleStatus(${task.id})">${statusLabels[task.status]}</span>
+            <button class="action-btn" onclick="editTask(${task.id})">✏️ Edit</button>
+            <button class="action-btn" onclick="deleteTask(${task.id})">✕</button>
+          </div>
+        </div>
+        <div class="task-notes-area">
+          <textarea 
+            class="notes-input" 
+            placeholder="Add notes or updates here..." 
+            oninput="updateNotes(${task.id}, this.value)"
+          >${task.notes || ''}</textarea>
+        </div>
+      `;
+
+      if (isUrgent && task.status !== 'completed') {
+        urgentCount++;
+        containers.urgent.appendChild(card.cloneNode(true));
+      }
+
+      containers[task.role].appendChild(card);
+
+      if (task.date && task.status !== 'completed') {
+        const d = new Date(task.date);
+        if (!closestDeadline || d < closestDeadline) {
+          closestDeadline = d;
+        }
+      }
+    });
+
+    if (todayCount === 0) {
+      todayContainer.innerHTML = '<div style="font-size:13px; color:#1557b0;">🎉 Clear schedule for today! No pending items due.</div>';
+    }
+
+    document.getElementById('stale-banner').style.display = staleCount > 0 ? 'block' : 'none';
+    document.getElementById('urgent-section').style.display = urgentCount > 0 ? 'block' : 'none';
+    document.getElementById('current-date').innerText = formatDateShort(todayStr);
+    
+    if (closestDeadline) {
+      const daysLeft = Math.ceil((closestDeadline - now) / (1000 * 60 * 60 * 24));
+      document.getElementById('next-deadline').innerText = daysLeft > 0 ? `${daysLeft} days` : 'Today / Overdue';
+    } else {
+      document.getElementById('next-deadline').innerText = 'None';
+    }
+  }
+
+  loadScratchpad();
+  renderTimetable();
+  renderEvents();
+  renderAffirmations();
+  render();
+</script>
+
+</body>
+</html>
