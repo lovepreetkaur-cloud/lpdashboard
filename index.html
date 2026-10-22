@@ -84,7 +84,6 @@
       font-weight: 500;
     }
 
-    /* Role Quick-Jump Pills in Header */
     .header-role-pills {
       display: flex;
       gap: 6px;
@@ -107,21 +106,9 @@
     .role-pill.house { background: #fdf4ff; color: var(--color-morrison); border-color: #f5d0fe; }
     .role-pill:hover { filter: brightness(0.95); transform: translateY(-1px); }
 
-    .widget-box {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .widget {
-      background: #f8fafc;
-      padding: 10px 18px;
-      border-radius: 10px;
-      text-align: center;
-      border: 1px solid var(--border);
-    }
-
-    .widget .val { font-size: 17px; font-weight: 800; color: var(--primary); }
+    .widget-box { display: flex; gap: 12px; flex-wrap: wrap; }
+    .widget { background: #f8fafc; padding: 10px 18px; border-radius: 10px; text-align: center; border: 1px solid var(--border); }
+    .widget .val { font-size: 16px; font-weight: 800; color: var(--primary); }
     .widget .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); font-weight: 700; }
 
     /* Focus Mode Bar */
@@ -160,7 +147,7 @@
       box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
     }
 
-    /* Quick Scratchpad Area */
+    /* Scratchpad Area */
     .scratchpad-card {
       background: #fffbeb;
       border: 2px dashed #f59e0b;
@@ -198,14 +185,15 @@
     /* Side-by-side Top Banners */
     .top-banner-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 16px;
       margin-bottom: 20px;
     }
 
     .today-banner { background: #eff6ff; border: 2px solid #60a5fa; border-radius: 14px; padding: 18px 20px; margin: 0; }
+    .waiting-banner { background: #fdf4ff; border: 2px solid #d8b4fe; border-radius: 14px; padding: 18px 20px; margin: 0; }
     .stale-banner { background: var(--stale-bg); border: 2px solid var(--stale-border); border-radius: 14px; padding: 18px 20px; margin: 0; }
-    .today-banner h3, .stale-banner h3 { margin: 0 0 12px 0; font-size: 17px; font-weight: 800; }
+    .today-banner h3, .waiting-banner h3, .stale-banner h3 { margin: 0 0 12px 0; font-size: 17px; font-weight: 800; }
 
     /* Timetable Card */
     .timetable-card {
@@ -294,7 +282,6 @@
     }
     .section-title:hover { color: var(--primary); }
 
-    /* Tasks Grid Container with Drag-and-Drop Dropzone styles */
     .tasks-grid-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(560px, 1fr));
@@ -378,6 +365,7 @@
     .class-tag.tag-House { background: var(--color-morrison); }
 
     .worktype-tag { background: #e2e8f0; color: #334155; padding: 3px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+    .stakeholder-tag { background: #f3e8ff; color: #6b21a8; border: 1px solid #e9d5ff; padding: 2px 8px; border-radius: 6px; font-size: 11px; font-weight: 800; }
     .due-date-text { font-weight: 800; color: #1e293b; }
     .created-tag { font-size: 12px; color: #64748b; font-style: italic; }
 
@@ -391,14 +379,25 @@
     .action-btn:hover { background: #e2e8f0; color: #0f172a; }
     .snooze-btn { color: #1d4ed8; background: #dbeafe; font-weight: 700; }
     .snooze-btn:hover { background: #bfdbfe; }
+    .chase-btn { color: #7e22ce; background: #f3e8ff; font-weight: 800; border: 1px solid #e9d5ff; }
+    .chase-btn:hover { background: #e9d5ff; }
     .stamp-btn { background: #dcfce7; color: #15803d; font-weight: 700; }
     .stamp-btn:hover { background: #bbf7d0; }
+    .urgent-toggle-btn { background: #fee2e2; color: #991b1b; font-weight: 800; }
+    .waiting-toggle-btn { background: #f3e8ff; color: #6b21a8; font-weight: 800; }
 
     .chip { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 800; cursor: pointer; user-select: none; display: inline-block; text-align: center; min-width: 100px; }
-    .chip.urgent { background: var(--urgent-bg); color: var(--urgent-text); border: 1px solid var(--urgent-border); }
     .chip.in-progress { background: var(--progress-bg); color: var(--progress-text); border: 1px solid var(--progress-border); }
     .chip.completed { background: var(--completed-bg); color: var(--completed-text); border: 1px solid var(--completed-border); text-decoration: line-through; opacity: 0.75; }
     .chip.not-started { background: var(--notstarted-bg); color: var(--notstarted-text); border: 1px solid #d1d5db; }
+
+    /* Print Stylesheet for Conference/Parent Meetings */
+    @media print {
+      body { background: #ffffff; padding: 0; }
+      header, .focus-mode-card, .controls-card, .brain-dump-card, .tt-toggle-btn, .action-btn, .drag-handle { display: none !important; }
+      .container { max-width: 100%; }
+      .task-card { break-inside: avoid; shadow: none; border: 1px solid #000; margin-bottom: 12px; }
+    }
   </style>
 </head>
 <body>
@@ -408,7 +407,6 @@
     <div class="header-title">
       <h1>Personal Leadership & Teaching Dashboard</h1>
       <p>Lovepreet (DHoY) Schedule & Complete State Backup</p>
-      <!-- Quick Header Role Pills with Live Task Counts -->
       <div class="header-role-pills">
         <span class="role-pill pta" onclick="quickFilterFromHeader('PTA')">🌱 PTA: <span id="count-pta">0</span></span>
         <span class="role-pill eng" onclick="quickFilterFromHeader('English')">📚 English: <span id="count-eng">0</span></span>
@@ -451,8 +449,8 @@
     <textarea 
       id="scratchpad-text" 
       class="scratchpad-input" 
-      placeholder="Type any quick thoughts, phone numbers, or raw notes here. Auto-saves automatically as you type..."
-      oninput="saveScratchpad()"
+      placeholder="Type any quick thoughts, phone numbers, or raw notes here. Auto-saves automatically..."
+      oninput="debouncedSaveScratchpad()"
     ></textarea>
   </div>
 
@@ -461,6 +459,11 @@
     <div class="today-banner" id="today-banner">
       <h3 style="color: #1e40af;">📅 Due Today & Overdue Items</h3>
       <div id="today-container"></div>
+    </div>
+
+    <div class="waiting-banner" id="waiting-banner" style="display:none;">
+      <h3 style="color: #6b21a8;">⏳ Waiting On Others (<span id="waiting-count">0</span>)</h3>
+      <div id="waiting-container"></div>
     </div>
 
     <div class="stale-banner" id="stale-banner" style="display:none;">
@@ -520,6 +523,7 @@
         </select>
         <select id="new-task-worktype">
           <option value="Admin & Paperwork">📄 Admin & Paperwork</option>
+          <option value="Lesson Planning & PPT">💻 Lesson Planning & PPT</option>
           <option value="Event Attendance">🏟️ Event Attendance</option>
           <option value="Liaison & Email">💬 Liaison & Email</option>
           <option value="SEQTA Logging">📧 SEQTA / Logging</option>
@@ -527,6 +531,7 @@
           <option value="Physical Duty">🚶 Physical Duty</option>
           <option value="Marking & Grading">✏️ Marking & Grading</option>
         </select>
+        <input type="text" id="new-task-stakeholder" placeholder="Stakeholder (e.g. Mr. Lau, Derek)..." style="width: 140px;" />
         <input type="date" id="new-task-date" />
         <button onclick="addTask()">Add Task</button>
       </div>
@@ -536,7 +541,7 @@
   <!-- Search & Filter Bar -->
   <div class="controls-card" id="controls-section">
     <div class="search-filter-row">
-      <input type="text" id="search-bar" class="search-input" placeholder="🔍 Search tasks, students, or notes..." oninput="render()" />
+      <input type="text" id="search-bar" class="search-input" placeholder="🔍 Search tasks, students, notes, or stakeholders..." oninput="debouncedSearch()" />
       <button class="filter-btn active" id="btn-filter-ALL" onclick="setFilter('ALL', this)">All Roles</button>
       <button class="filter-btn" id="btn-filter-PTA" onclick="setFilter('PTA', this)">PTA</button>
       <button class="filter-btn" id="btn-filter-English" onclick="setFilter('English', this)">English</button>
@@ -545,7 +550,8 @@
     </div>
     <div class="backup-row">
       <button class="action-btn" onclick="toggleShowCompleted()">📁 <span id="archive-toggle-text">Show Completed / Archive</span></button>
-      <button class="action-btn" onclick="exportData()">📤 Export FULL Backup (All Data)</button>
+      <button class="action-btn" onclick="exportData()">📤 Export FULL Backup (JSON)</button>
+      <button class="action-btn" onclick="exportCSV()">📊 Export CSV (Excel)</button>
       <button class="action-btn" onclick="importData()">📥 Import Backup</button>
       <input type="file" id="import-file" style="display:none" onchange="handleFileImport(event)" />
     </div>
@@ -554,7 +560,7 @@
   <!-- Priority Alert Section -->
   <div id="urgent-section" style="display: none;">
     <div class="section-title" style="color: var(--urgent-border);">
-      🚨 Urgent & Next Up (Auto-Prioritized)
+      🚨 Urgent & Priority Items
     </div>
     <div id="urgent-container" class="tasks-grid-container" data-role="urgent"></div>
   </div>
@@ -590,17 +596,40 @@
 </div>
 
 <script>
-  const now = new Date();
-  const todayStr = now.toISOString().split('T')[0];
+  // Local Timezone Safe Helpers (Hong Kong UTC+8 Fix)
+  function getTodayLocalStr() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+
+  function parseLocalDate(dateStr) {
+    if (!dateStr) return null;
+    const parts = dateStr.split('-').map(Number);
+    if (parts.length !== 3) return null;
+    return new Date(parts[0], parts[1] - 1, parts[2]);
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+  }
+
+  let todayStr = getTodayLocalStr();
   let currentWeekView = 'A';
   let currentFocusMode = 'ALL';
   let draggedTaskId = null;
+  let searchTimer = null;
+  let notesSaveTimer = null;
 
   function formatDateShort(dateStr) {
     if (!dateStr) return '';
-    const parts = dateStr.split('-');
-    if (parts.length !== 3) return dateStr;
-    const d = new Date(parts[0], parts[1] - 1, parts[2]);
+    const d = parseLocalDate(dateStr);
+    if (!d) return dateStr;
     return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   }
 
@@ -643,6 +672,12 @@
     scratchpadNote = document.getElementById('scratchpad-text').value;
     localStorage.setItem('teacher_dashboard_scratchpad', scratchpadNote);
   }
+
+  function debouncedSaveScratchpad() {
+    clearTimeout(notesSaveTimer);
+    notesSaveTimer = setTimeout(saveScratchpad, 300);
+  }
+
   function clearScratchpad() {
     if (confirm("Clear your quick scratchpad notes?")) {
       scratchpadNote = '';
@@ -664,21 +699,38 @@
       role: 'DHOY',
       subClass: '',
       workType: 'Admin & Paperwork',
+      stakeholder: '',
+      isWaitingOn: false,
+      isUrgent: false,
       date: todayStr,
       createdDate: todayStr,
       status: 'not-started',
       notes: selectedText
     });
     saveTasks();
-    alert("Converted into a DHOY task due today!");
+    if (confirm("Task created! Clear converted text from scratchpad?")) {
+      textarea.value = '';
+      saveScratchpad();
+    }
   }
 
-  /* Updated Stamp Function to output Date instead of Time */
   function appendStamp(id, stampText) {
     const task = tasks.find(t => t.id === id);
     if (task) {
       const dateTag = formatDateShort(todayStr);
       task.notes = (task.notes || '') + `\n[${stampText} @ ${dateTag}]`;
+      saveTasks();
+    }
+  }
+
+  function chaseTask(id) {
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+      const dateTag = formatDateShort(todayStr);
+      task.notes = (task.notes || '') + `\n[Chased @ ${dateTag}]`;
+      const baseDate = task.date ? parseLocalDate(task.date) : new Date();
+      baseDate.setDate(baseDate.getDate() + 3);
+      task.date = `${baseDate.getFullYear()}-${String(baseDate.getMonth() + 1).padStart(2, '0')}-${String(baseDate.getDate()).padStart(2, '0')}`;
       saveTasks();
     }
   }
@@ -742,34 +794,34 @@
   };
 
   const initialTasks = [
-    { id: 1, title: "Signed 1st EXCO Minutes to Mr. Lau", role: "PTA", subClass: "", workType: "Admin & Paperwork", date: "2026-10-12", createdDate: "2026-10-01", status: "urgent", notes: "Find Amelia (4H IGCSE 17) -> Give dad to sign -> Collect back -> Hand to Mr. Lau" },
-    { id: 2, title: "PTA Teachers Meeting Presentation", role: "PTA", subClass: "", workType: "Event Attendance", date: "2026-10-09", createdDate: "2026-10-01", status: "in-progress", notes: "Update on plan for the year & IFF (Parents day in SEM 2)" },
-    { id: 3, title: "Book meeting room with Derek", role: "PTA", subClass: "", workType: "Liaison & Email", date: "2026-11-05", createdDate: "2026-10-02", status: "not-started", notes: "Prep for PTA EXCO Meeting" },
-    { id: 4, title: "Make PPT & Agenda for EXCO Meeting", role: "PTA", subClass: "", workType: "Admin & Paperwork", date: "2026-11-05", createdDate: "2026-10-02", status: "not-started", notes: "Prep for PTA EXCO Meeting" },
-    { id: 5, title: "Remind parents via email & WhatsApp", role: "PTA", subClass: "", workType: "Liaison & Email", date: "2026-11-05", createdDate: "2026-10-02", status: "not-started", notes: "Prep for PTA EXCO Meeting" },
-    { id: 6, title: "Send minutes template to Richard", role: "PTA", subClass: "", workType: "Liaison & Email", date: "2026-11-05", createdDate: "2026-10-02", status: "not-started", notes: "Prep for PTA EXCO Meeting" },
-    { id: 7, title: "PTA EXCO Meeting Discussion", role: "PTA", subClass: "", workType: "Event Attendance", date: "2026-11-06", createdDate: "2026-10-02", status: "not-started", notes: "Ask IFF prep (Booth # & reply to Andrew Koo)" },
-    { id: 8, title: "Speaking Test", role: "English", subClass: "class-13", workType: "Marking & Grading", date: "", createdDate: "2026-09-25", status: "in-progress", notes: "Class 1.3" },
-    { id: 9, title: "Short Story", role: "English", subClass: "class-23", workType: "Marking & Grading", date: "", createdDate: "2026-09-20", status: "not-started", notes: "Class 2.3 - Not needed for LOA" },
-    { id: 10, title: "Short Story", role: "English", subClass: "class-26", workType: "Marking & Grading", date: "", createdDate: "2026-09-20", status: "not-started", notes: "Class 2.6 - Not needed for LOA" },
-    { id: 11, title: "Reading Test (Directed Writing)", role: "English", subClass: "class-32", workType: "Marking & Grading", date: "", createdDate: "2026-09-20", status: "not-started", notes: "Class 3.2 - Not needed for LOA" },
-    { id: 12, title: "SBA & Writing Final (Blog Post)", role: "English", subClass: "class-42", workType: "Marking & Grading", date: "", createdDate: "2026-09-28", status: "in-progress", notes: "Class 4.2 - Savva SBA & Exam stress" },
-    { id: 13, title: "F.1 Pastoral Care & Student Support", role: "DHOY", subClass: "", workType: "Pastoral Care", date: "", createdDate: "2026-09-01", status: "in-progress", notes: "Ongoing support & SEQTA entries" },
-    { id: 14, title: "Morrison House Events & Points", role: "House", subClass: "", workType: "Event Attendance", date: "", createdDate: "2026-09-01", status: "in-progress", notes: "Ongoing coordination" }
+    { id: 1, title: "Signed 1st EXCO Minutes to Mr. Lau", role: "PTA", subClass: "", workType: "Admin & Paperwork", stakeholder: "Mr. Lau", isWaitingOn: false, isUrgent: true, date: "2026-10-12", createdDate: "2026-10-01", status: "not-started", notes: "Find Amelia (4H IGCSE 17) -> Give dad to sign -> Collect back -> Hand to Mr. Lau" },
+    { id: 2, title: "PTA Teachers Meeting Presentation", role: "PTA", subClass: "", workType: "Event Attendance", stakeholder: "", isWaitingOn: false, isUrgent: false, date: "2026-10-09", createdDate: "2026-10-01", status: "in-progress", notes: "Update on plan for the year & IFF (Parents day in SEM 2)" },
+    { id: 3, title: "Book meeting room with Derek", role: "PTA", subClass: "", workType: "Liaison & Email", stakeholder: "Derek", isWaitingOn: true, isUrgent: false, date: "2026-11-05", createdDate: "2026-10-02", status: "not-started", notes: "Prep for PTA EXCO Meeting" },
+    { id: 4, title: "Make PPT & Agenda for EXCO Meeting", role: "PTA", subClass: "", workType: "Admin & Paperwork", stakeholder: "", isWaitingOn: false, isUrgent: false, date: "2026-11-05", createdDate: "2026-10-02", status: "not-started", notes: "Prep for PTA EXCO Meeting" },
+    { id: 5, title: "Remind parents via email & WhatsApp", role: "PTA", subClass: "", workType: "Liaison & Email", stakeholder: "Parents", isWaitingOn: false, isUrgent: false, date: "2026-11-05", createdDate: "2026-10-02", status: "not-started", notes: "Prep for PTA EXCO Meeting" },
+    { id: 6, title: "Send minutes template to Richard", role: "PTA", subClass: "", workType: "Liaison & Email", stakeholder: "Richard", isWaitingOn: true, isUrgent: false, date: "2026-11-05", createdDate: "2026-10-02", status: "not-started", notes: "Prep for PTA EXCO Meeting" },
+    { id: 7, title: "PTA EXCO Meeting Discussion", role: "PTA", subClass: "", workType: "Event Attendance", stakeholder: "Andrew Koo", isWaitingOn: false, isUrgent: false, date: "2026-11-06", createdDate: "2026-10-02", status: "not-started", notes: "Ask IFF prep (Booth # & reply to Andrew Koo)" },
+    { id: 8, title: "Speaking Test", role: "English", subClass: "class-13", workType: "Marking & Grading", stakeholder: "", isWaitingOn: false, isUrgent: false, date: "", createdDate: "2026-09-25", status: "in-progress", notes: "Class 1.3" },
+    { id: 9, title: "Short Story", role: "English", subClass: "class-23", workType: "Marking & Grading", stakeholder: "", isWaitingOn: false, isUrgent: false, date: "", createdDate: "2026-09-20", status: "not-started", notes: "Class 2.3 - Not needed for LOA" },
+    { id: 10, title: "Short Story", role: "English", subClass: "class-26", workType: "Marking & Grading", stakeholder: "", isWaitingOn: false, isUrgent: false, date: "", createdDate: "2026-09-20", status: "not-started", notes: "Class 2.6 - Not needed for LOA" },
+    { id: 11, title: "Reading Test (Directed Writing)", role: "English", subClass: "class-32", workType: "Marking & Grading", stakeholder: "", isWaitingOn: false, isUrgent: false, date: "", createdDate: "2026-09-20", status: "not-started", notes: "Class 3.2 - Not needed for LOA" },
+    { id: 12, title: "SBA & Writing Final (Blog Post)", role: "English", subClass: "class-42", workType: "Marking & Grading", stakeholder: "", isWaitingOn: false, isUrgent: false, date: "", createdDate: "2026-09-28", status: "in-progress", notes: "Class 4.2 - Savva SBA & Exam stress" },
+    { id: 13, title: "F.1 Pastoral Care & Student Support", role: "DHOY", subClass: "", workType: "Pastoral Care", stakeholder: "", isWaitingOn: false, isUrgent: false, date: "", createdDate: "2026-09-01", status: "in-progress", notes: "Ongoing support & SEQTA entries" },
+    { id: 14, title: "Morrison House Events & Points", role: "House", subClass: "", workType: "Event Attendance", stakeholder: "", isWaitingOn: false, isUrgent: false, date: "", createdDate: "2026-09-01", status: "in-progress", notes: "Ongoing coordination" }
   ];
 
-  let tasks = JSON.parse(localStorage.getItem('teacher_dashboard_tasks_v16')) || initialTasks;
-  let affirmations = JSON.parse(localStorage.getItem('teacher_dashboard_affs_v16')) || [];
+  let tasks = JSON.parse(localStorage.getItem('teacher_dashboard_tasks_v17')) || initialTasks;
+  let affirmations = JSON.parse(localStorage.getItem('teacher_dashboard_affs_v17')) || [];
   let currentFilter = 'ALL';
   let showCompleted = false;
 
   function saveTasks(reRender = true) {
-    localStorage.setItem('teacher_dashboard_tasks_v16', JSON.stringify(tasks));
+    localStorage.setItem('teacher_dashboard_tasks_v17', JSON.stringify(tasks));
     if (reRender) render();
   }
 
   function saveAffirmations() {
-    localStorage.setItem('teacher_dashboard_affs_v16', JSON.stringify(affirmations));
+    localStorage.setItem('teacher_dashboard_affs_v17', JSON.stringify(affirmations));
     renderAffirmations();
   }
 
@@ -783,8 +835,9 @@
   function renderTimetable() {
     const table = document.getElementById('timetable-table');
     const rows = timetableData[currentWeekView];
-    const currentDayIdx = now.getDay();
-    const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+    const liveNow = new Date();
+    const currentDayIdx = liveNow.getDay();
+    const currentTimeStr = `${String(liveNow.getHours()).padStart(2, '0')}:${String(liveNow.getMinutes()).padStart(2, '0')}`;
 
     let html = `
       <tr>
@@ -836,19 +889,21 @@
 
     let todayEventsCount = 0;
     let weekEventsCount = 0;
-    const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const liveNow = new Date();
+    const todayMidnight = new Date(liveNow.getFullYear(), liveNow.getMonth(), liveNow.getDate());
 
     schoolEvents.forEach(e => {
       if (e.date === todayStr) {
         todayEventsCount++;
-        todayBox.innerHTML += `<div class="event-item">📌 <strong>${e.title}</strong></div>`;
+        todayBox.innerHTML += `<div class="event-item">📌 <strong>${escapeHtml(e.title)}</strong></div>`;
       }
-      const p = e.date.split('-');
-      const eDate = new Date(p[0], p[1] - 1, p[2]);
-      const diffDays = Math.round((eDate - todayMidnight) / (1000 * 60 * 60 * 24));
-      if (diffDays >= 0 && diffDays <= 7) {
-        weekEventsCount++;
-        weekBox.innerHTML += `<div class="event-item">🗓️ <strong>${formatDateShort(e.date)}:</strong> ${e.title}</div>`;
+      const eDate = parseLocalDate(e.date);
+      if (eDate) {
+        const diffDays = Math.round((eDate - todayMidnight) / (1000 * 60 * 60 * 24));
+        if (diffDays >= 0 && diffDays <= 7) {
+          weekEventsCount++;
+          weekBox.innerHTML += `<div class="event-item">🗓️ <strong>${formatDateShort(e.date)}:</strong> ${escapeHtml(e.title)}</div>`;
+        }
       }
     });
 
@@ -901,7 +956,7 @@
       const item = document.createElement('div');
       item.className = 'affirmation-item';
       item.innerHTML = `
-        <div><strong>🌟 ${a.name}</strong> ${a.reason ? '— ' + a.reason : ''}</div>
+        <div><strong>🌟 ${escapeHtml(a.name)}</strong> ${a.reason ? '— ' + escapeHtml(a.reason) : ''}</div>
         <button class="action-btn" onclick="deleteAffirmation(${a.id})">✓ Done</button>
       `;
       list.appendChild(item);
@@ -922,11 +977,30 @@
   }
 
   function toggleStatus(id) {
-    const statuses = ['not-started', 'in-progress', 'urgent', 'completed'];
+    const statuses = ['not-started', 'in-progress', 'completed'];
     const task = tasks.find(t => t.id === id);
     if (task) {
       const nextIdx = (statuses.indexOf(task.status) + 1) % statuses.length;
       task.status = statuses[nextIdx];
+      if (task.status === 'completed') {
+        task.completedDate = todayStr;
+      }
+      saveTasks();
+    }
+  }
+
+  function toggleUrgentFlag(id) {
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+      task.isUrgent = !task.isUrgent;
+      saveTasks();
+    }
+  }
+
+  function toggleWaitingFlag(id) {
+    const task = tasks.find(t => t.id === id);
+    if (task) {
+      task.isWaitingOn = !task.isWaitingOn;
       saveTasks();
     }
   }
@@ -934,9 +1008,9 @@
   function snoozeTask(id, days) {
     const task = tasks.find(t => t.id === id);
     if (task) {
-      const baseDate = task.date ? new Date(task.date) : new Date();
+      const baseDate = task.date ? parseLocalDate(task.date) : new Date();
       baseDate.setDate(baseDate.getDate() + days);
-      task.date = baseDate.toISOString().split('T')[0];
+      task.date = `${baseDate.getFullYear()}-${String(baseDate.getMonth() + 1).padStart(2, '0')}-${String(baseDate.getDate()).padStart(2, '0')}`;
       saveTasks();
     }
   }
@@ -945,8 +1019,13 @@
     const task = tasks.find(t => t.id === id);
     if (task) {
       task.notes = text;
-      saveTasks(false);
+      localStorage.setItem('teacher_dashboard_tasks_v17', JSON.stringify(tasks));
     }
+  }
+
+  function debouncedSearch() {
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(render, 150);
   }
 
   function editTask(id) {
@@ -954,8 +1033,10 @@
     if (!task) return;
     const newTitle = prompt("Edit Task Title:", task.title);
     if (newTitle === null) return;
+    const newStakeholder = prompt("Edit Stakeholder (e.g., Mr. Lau, Derek):", task.stakeholder || "");
     const newDate = prompt("Edit Due Date (YYYY-MM-DD):", task.date || "");
     task.title = newTitle.trim() || task.title;
+    task.stakeholder = newStakeholder !== null ? newStakeholder.trim() : task.stakeholder;
     task.date = newDate !== null ? newDate.trim() : task.date;
     saveTasks();
   }
@@ -971,6 +1052,7 @@
     const textInput = document.getElementById('new-task-text');
     const roleSelect = document.getElementById('new-task-role');
     const workTypeSelect = document.getElementById('new-task-worktype');
+    const stakeholderInput = document.getElementById('new-task-stakeholder');
     const dateInput = document.getElementById('new-task-date');
 
     if (!textInput.value.trim()) return;
@@ -988,6 +1070,9 @@
       role: selectedRole,
       subClass: subClass,
       workType: workTypeSelect.value,
+      stakeholder: stakeholderInput.value.trim(),
+      isWaitingOn: false,
+      isUrgent: false,
       date: dateInput.value,
       createdDate: todayStr,
       status: 'not-started',
@@ -995,6 +1080,7 @@
     });
 
     textInput.value = '';
+    stakeholderInput.value = '';
     dateInput.value = '';
     saveTasks();
   }
@@ -1033,12 +1119,10 @@
     const taskIdx = tasks.findIndex(t => t.id === draggedTaskId);
     if (taskIdx === -1) return;
 
-    // Update role if dragged into a different role section
     if (newRole && newRole !== 'urgent' && tasks[taskIdx].role !== newRole) {
       tasks[taskIdx].role = newRole;
     }
 
-    // Determine reordering position based on drop location
     const draggedTask = tasks.splice(taskIdx, 1)[0];
     const cards = Array.from(targetContainer.querySelectorAll('.task-card:not(.dragging)'));
     let insertBeforeIdx = cards.length;
@@ -1077,7 +1161,7 @@
 
   function exportData() {
     const fullBackup = {
-      version: "16.1",
+      version: "17.0",
       exportDate: new Date().toISOString(),
       user: "Lovepreet (DHoY)",
       scratchpadNote: scratchpadNote,
@@ -1093,6 +1177,23 @@
     document.body.appendChild(downloadAnchor);
     downloadAnchor.click();
     downloadAnchor.remove();
+  }
+
+  function exportCSV() {
+    let csv = "ID,Title,Role,WorkType,Stakeholder,Status,Urgent,WaitingOn,DueDate,CreatedDate,CompletedDate,Notes\n";
+    tasks.forEach(t => {
+      const cleanTitle = `"${(t.title || '').replace(/"/g, '""')}"`;
+      const cleanNotes = `"${(t.notes || '').replace(/"/g, '""')}"`;
+      csv += `${t.id},${cleanTitle},${t.role},${t.workType},"${t.stakeholder || ''}",${t.status},${t.isUrgent ? 'Yes' : 'No'},${t.isWaitingOn ? 'Yes' : 'No'},${t.date || ''},${t.createdDate || ''},${t.completedDate || ''},${cleanNotes}\n`;
+    });
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", `teacher_tasks_export_${formatDateShort(todayStr).replace(/ /g, '_')}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   function importData() { document.getElementById('import-file').click(); }
@@ -1125,11 +1226,75 @@
     reader.readAsText(file);
   }
 
+  function renderCardHTML(task, isClone = false) {
+    const statusLabels = { 'not-started': 'Not Started', 'in-progress': 'In Progress', 'completed': '✓ Done' };
+
+    let displayLabel = "";
+    let tagCssClass = "";
+    if (task.subClass === "class-13") { displayLabel = "1.3"; tagCssClass = "tag-class-13"; }
+    else if (task.subClass === "class-23") { displayLabel = "2.3"; tagCssClass = "tag-class-23"; }
+    else if (task.subClass === "class-26") { displayLabel = "2.6"; tagCssClass = "tag-class-26"; }
+    else if (task.subClass === "class-32") { displayLabel = "3.2"; tagCssClass = "tag-class-32"; }
+    else if (task.subClass === "class-42") { displayLabel = "4.2"; tagCssClass = "tag-class-42"; }
+    else if (task.role === "PTA") { displayLabel = "PTA"; tagCssClass = "tag-PTA"; }
+    else if (task.role === "DHOY") { displayLabel = "DHOY"; tagCssClass = "tag-DHOY"; }
+    else if (task.role === "House") { displayLabel = "House"; tagCssClass = "tag-House"; }
+
+    const labelBadgeHtml = displayLabel ? `<span class="class-tag ${tagCssClass}">${displayLabel}</span>` : '';
+    const stakeholderBadgeHtml = task.stakeholder ? `<span class="stakeholder-tag">👤 ${escapeHtml(task.stakeholder)}</span>` : '';
+
+    return `
+      <div>
+        <div class="task-header">
+          <div class="task-info">
+            <div class="task-title">
+              ${escapeHtml(task.title)}
+              ${task.isUrgent ? '🚨' : ''}
+              ${task.isWaitingOn ? '⏳' : ''}
+              ${!isClone ? '<span class="drag-handle" title="Drag to reorder">⋮⋮ Drag</span>' : ''}
+            </div>
+            <div class="task-meta">
+              ${labelBadgeHtml}
+              <span class="worktype-tag">${escapeHtml(task.workType || 'General')}</span>
+              ${stakeholderBadgeHtml}
+              <span class="due-date-text">${task.date ? '📅 Due: ' + formatDateShort(task.date) : 'No fixed date'}</span>
+              <span class="created-tag">(Created ${formatDateShort(task.createdDate || todayStr)}${task.completedDate ? ' | Done ' + formatDateShort(task.completedDate) : ''})</span>
+            </div>
+          </div>
+          <div>
+            <span class="chip ${task.status}" onclick="toggleStatus(${task.id})">${statusLabels[task.status] || 'Not Started'}</span>
+          </div>
+        </div>
+        
+        <div class="quick-actions-row">
+          <button class="action-btn snooze-btn" onclick="snoozeTask(${task.id}, 1)">+1 Day</button>
+          <button class="action-btn snooze-btn" onclick="snoozeTask(${task.id}, 7)">+1 Wk</button>
+          <button class="action-btn chase-btn" onclick="chaseTask(${task.id})">⏰ Chase</button>
+          <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'SEQTA Logged')">+SEQTA</button>
+          <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'Email Sent')">+Email</button>
+          <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'Parent Called')">+Call</button>
+          <button class="action-btn urgent-toggle-btn" onclick="toggleUrgentFlag(${task.id})">${task.isUrgent ? 'Un-Urgent' : '🚨 Urgent'}</button>
+          <button class="action-btn waiting-toggle-btn" onclick="toggleWaitingFlag(${task.id})">${task.isWaitingOn ? 'Un-Waiting' : '⏳ Waiting'}</button>
+          <button class="action-btn" onclick="editTask(${task.id})">✏️ Edit</button>
+          <button class="action-btn" onclick="deleteTask(${task.id})">✕</button>
+        </div>
+      </div>
+
+      <div class="task-notes-area">
+        <textarea class="notes-input" placeholder="Add notes or updates here..." oninput="updateNotes(${task.id}, this.value)">${escapeHtml(task.notes || '')}</textarea>
+      </div>
+    `;
+  }
+
   function render() {
+    todayStr = getTodayLocalStr();
     const searchQuery = document.getElementById('search-bar').value.toLowerCase();
     const todayContainer = document.getElementById('today-container');
+    const waitingContainer = document.getElementById('waiting-container');
     const staleContainer = document.getElementById('stale-container');
+    
     todayContainer.innerHTML = '';
+    waitingContainer.innerHTML = '';
     staleContainer.innerHTML = '';
 
     const containers = {
@@ -1145,16 +1310,19 @@
     let counts = { PTA: 0, English: 0, DHOY: 0, House: 0 };
     let urgentCount = 0;
     let todayCount = 0;
+    let waitingCount = 0;
     let staleCount = 0;
     let closestDeadline = null;
+
+    const liveNow = new Date();
 
     tasks.forEach(task => {
       if (task.status !== 'completed') {
         if (counts[task.role] !== undefined) counts[task.role]++;
       }
 
-      const createdDT = task.createdDate ? new Date(task.createdDate) : now;
-      const daysOld = Math.floor((now - createdDT) / (1000 * 60 * 60 * 24));
+      const createdDT = task.createdDate ? parseLocalDate(task.createdDate) : liveNow;
+      const daysOld = createdDT ? Math.floor((liveNow - createdDT) / (1000 * 60 * 60 * 24)) : 0;
       const isStale = !task.date && daysOld >= 7 && task.status !== 'completed';
       const isDueTodayOrOverdue = task.date && task.date <= todayStr && task.status !== 'completed';
       
@@ -1163,10 +1331,24 @@
         const todayItem = document.createElement('div');
         todayItem.style.cssText = "background:#fff; padding:10px 14px; margin-bottom:8px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; font-size:14px; border-left:4px solid #2563eb; box-shadow: 0 1px 3px rgba(0,0,0,0.03);";
         todayItem.innerHTML = `
-          <div><strong>${task.title}</strong> (${task.role}) ${task.date < todayStr ? '<span style="color:#dc2626; font-weight:800;">[OVERDUE]</span>' : ''}</div>
+          <div><strong>${escapeHtml(task.title)}</strong> (${task.role}) ${task.date < todayStr ? '<span style="color:#dc2626; font-weight:800;">[OVERDUE]</span>' : ''}</div>
           <button class="action-btn" onclick="toggleStatus(${task.id})">Mark Done</button>
         `;
         todayContainer.appendChild(todayItem);
+      }
+
+      if (task.isWaitingOn && task.status !== 'completed') {
+        waitingCount++;
+        const waitingItem = document.createElement('div');
+        waitingItem.style.cssText = "background:#fff; padding:10px 14px; margin-bottom:8px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; font-size:14px; border-left:4px solid #9333ea; box-shadow: 0 1px 3px rgba(0,0,0,0.03);";
+        waitingItem.innerHTML = `
+          <div><strong>${escapeHtml(task.title)}</strong> ${task.stakeholder ? '— 👤 ' + escapeHtml(task.stakeholder) : ''} (${task.role})</div>
+          <div>
+            <button class="action-btn chase-btn" onclick="chaseTask(${task.id})">⏰ Chase</button>
+            <button class="action-btn" onclick="toggleWaitingFlag(${task.id})">✓ Clear</button>
+          </div>
+        `;
+        waitingContainer.appendChild(waitingItem);
       }
 
       if (isStale) {
@@ -1174,7 +1356,7 @@
         const staleItem = document.createElement('div');
         staleItem.style.cssText = "background:#fff; padding:10px 14px; margin-bottom:8px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; font-size:14px; border-left:4px solid #ea580c; box-shadow: 0 1px 3px rgba(0,0,0,0.03);";
         staleItem.innerHTML = `
-          <div><strong>${task.title}</strong> (${task.role}) — <span style="color:#ea580c; font-weight:800;">Created ${daysOld} days ago</span></div>
+          <div><strong>${escapeHtml(task.title)}</strong> (${task.role}) — <span style="color:#ea580c; font-weight:800;">Created ${daysOld} days ago</span></div>
           <div>
             <button class="action-btn snooze-btn" onclick="assignDatePrompt(${task.id})">📅 Assign Date</button>
             <button class="action-btn" onclick="resetCreationTimer(${task.id})">⏳ Reset 7 Days</button>
@@ -1189,11 +1371,13 @@
 
       const matchesSearch = task.title.toLowerCase().includes(searchQuery) || 
                             (task.notes && task.notes.toLowerCase().includes(searchQuery)) ||
-                            (task.workType && task.workType.toLowerCase().includes(searchQuery));
+                            (task.workType && task.workType.toLowerCase().includes(searchQuery)) ||
+                            (task.stakeholder && task.stakeholder.toLowerCase().includes(searchQuery));
       if (!matchesSearch) return;
 
       const card = document.createElement('div');
-      const isUrgent = task.status === 'urgent' || (task.date && (new Date(task.date) - now) / (1000 * 60 * 60 * 24) <= 3 && task.status !== 'completed');
+      const isDueDateNear = task.date && (parseLocalDate(task.date) - liveNow) / (1000 * 60 * 60 * 24) <= 3 && task.status !== 'completed';
+      const isUrgent = task.isUrgent || isDueDateNear;
       
       card.className = `task-card role-${task.role} ${task.subClass} ${isUrgent ? 'urgent-border' : ''}`;
       card.setAttribute('draggable', 'true');
@@ -1201,67 +1385,25 @@
       card.addEventListener('dragstart', handleDragStart);
       card.addEventListener('dragend', handleDragEnd);
 
-      const statusLabels = { 'not-started': 'Not Started', 'in-progress': 'In Progress', 'urgent': '🚨 Urgent', 'completed': '✓ Done' };
-
-      let displayLabel = "";
-      let tagCssClass = "";
-      if (task.subClass === "class-13") { displayLabel = "1.3"; tagCssClass = "tag-class-13"; }
-      else if (task.subClass === "class-23") { displayLabel = "2.3"; tagCssClass = "tag-class-23"; }
-      else if (task.subClass === "class-26") { displayLabel = "2.6"; tagCssClass = "tag-class-26"; }
-      else if (task.subClass === "class-32") { displayLabel = "3.2"; tagCssClass = "tag-class-32"; }
-      else if (task.subClass === "class-42") { displayLabel = "4.2"; tagCssClass = "tag-class-42"; }
-      else if (task.role === "PTA") { displayLabel = "PTA"; tagCssClass = "tag-PTA"; }
-      else if (task.role === "DHOY") { displayLabel = "DHOY"; tagCssClass = "tag-DHOY"; }
-      else if (task.role === "House") { displayLabel = "House"; tagCssClass = "tag-House"; }
-
-      const labelBadgeHtml = displayLabel ? `<span class="class-tag ${tagCssClass}">${displayLabel}</span>` : '';
-
-      card.innerHTML = `
-        <div>
-          <div class="task-header">
-            <div class="task-info">
-              <div class="task-title">
-                ${task.title}
-                <span class="drag-handle" title="Drag to reorder">⋮⋮ Drag</span>
-              </div>
-              <div class="task-meta">
-                ${labelBadgeHtml}
-                <span class="worktype-tag">${task.workType || 'General'}</span>
-                <span class="due-date-text">${task.date ? '📅 Due: ' + formatDateShort(task.date) : 'No fixed date'}</span>
-                <span class="created-tag">(Created ${formatDateShort(task.createdDate || todayStr)})</span>
-              </div>
-            </div>
-            <div>
-              <span class="chip ${task.status}" onclick="toggleStatus(${task.id})">${statusLabels[task.status]}</span>
-            </div>
-          </div>
-          
-          <div class="quick-actions-row">
-            <button class="action-btn snooze-btn" onclick="snoozeTask(${task.id}, 1)">+1 Day</button>
-            <button class="action-btn snooze-btn" onclick="snoozeTask(${task.id}, 7)">+1 Wk</button>
-            <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'SEQTA Logged')">+SEQTA</button>
-            <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'Email Sent')">+Email</button>
-            <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'Parent Called')">+Call</button>
-            <button class="action-btn" onclick="editTask(${task.id})">✏️ Edit</button>
-            <button class="action-btn" onclick="deleteTask(${task.id})">✕</button>
-          </div>
-        </div>
-
-        <div class="task-notes-area">
-          <textarea class="notes-input" placeholder="Add notes or updates here..." oninput="updateNotes(${task.id}, this.value)">${task.notes || ''}</textarea>
-        </div>
-      `;
+      card.innerHTML = renderCardHTML(task, false);
 
       if (isUrgent && task.status !== 'completed') {
         urgentCount++;
-        containers.urgent.appendChild(card.cloneNode(true));
+        const cloneCard = document.createElement('div');
+        cloneCard.className = `task-card role-${task.role} ${task.subClass} urgent-border`;
+        cloneCard.innerHTML = renderCardHTML(task, true);
+        containers.urgent.appendChild(cloneCard);
       }
 
-      containers[task.role].appendChild(card);
+      if (containers[task.role]) {
+        containers[task.role].appendChild(card);
+      }
 
       if (task.date && task.status !== 'completed') {
-        const d = new Date(task.date);
-        if (!closestDeadline || d < closestDeadline) closestDeadline = d;
+        const d = parseLocalDate(task.date);
+        if (d && (!closestDeadline || d < closestDeadline.date)) {
+          closestDeadline = { date: d, title: task.title };
+        }
       }
     });
 
@@ -1280,19 +1422,29 @@
       todayContainer.innerHTML = '<div style="font-size:14px; color:#1e40af; font-weight:600;">🎉 Clear schedule for today! No pending items due.</div>';
     }
 
+    document.getElementById('waiting-count').innerText = waitingCount;
+    document.getElementById('waiting-banner').style.display = waitingCount > 0 ? 'block' : 'none';
     document.getElementById('stale-banner').style.display = staleCount > 0 ? 'block' : 'none';
     document.getElementById('urgent-section').style.display = urgentCount > 0 ? 'block' : 'none';
     document.getElementById('current-date').innerText = formatDateShort(todayStr);
     
     if (closestDeadline) {
-      const daysLeft = Math.ceil((closestDeadline - now) / (1000 * 60 * 60 * 24));
-      document.getElementById('next-deadline').innerText = daysLeft > 0 ? `${daysLeft} days` : 'Today / Overdue';
+      const daysLeft = Math.ceil((closestDeadline.date - liveNow) / (1000 * 60 * 60 * 24));
+      const textVal = daysLeft > 0 ? `${daysLeft}d — ${closestDeadline.title}` : `Overdue — ${closestDeadline.title}`;
+      document.getElementById('next-deadline').innerText = textVal.length > 25 ? textVal.substring(0, 22) + '...' : textVal;
     } else {
       document.getElementById('next-deadline').innerText = 'None';
     }
 
     attachDragListeners();
   }
+
+  // Auto-refresh timer every 30 seconds for clock and period highlighting
+  setInterval(() => {
+    todayStr = getTodayLocalStr();
+    renderTimetable();
+    document.getElementById('current-date').innerText = formatDateShort(todayStr);
+  }, 30000);
 
   loadScratchpad();
   renderTimetable();
