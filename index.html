@@ -673,11 +673,12 @@
     alert("Converted into a DHOY task due today!");
   }
 
+  /* Updated Stamp Function to output Date instead of Time */
   function appendStamp(id, stampText) {
     const task = tasks.find(t => t.id === id);
     if (task) {
-      const timeTag = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-      task.notes = (task.notes || '') + `\n[${stampText} @ ${timeTag}]`;
+      const dateTag = formatDateShort(todayStr);
+      task.notes = (task.notes || '') + `\n[${stampText} @ ${dateTag}]`;
       saveTasks();
     }
   }
