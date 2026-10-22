@@ -6,46 +6,57 @@
   <title>Teacher & Leadership Dashboard</title>
   <style>
     :root {
-      --bg: #f8f9fa;
+      --bg: #f3f4f6;
       --card-bg: #ffffff;
-      --text: #202124;
-      --border: #e0e0e0;
-      --primary: #1a73e8;
+      --text-main: #111827;
+      --text-muted: #4b5563;
+      --border: #e5e7eb;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
 
       /* Class & Schedule Colors */
-      --color-morrison: #8e24aa;
-      --color-dhoy: #ff9800;
-      --color-pta: #82c91e;
-      --color-eng-13: #82c91e;
-      --color-eng-23: #4dabf7;
-      --color-eng-26: #22b8cf;
-      --color-eng-32: #b86e00;
-      --color-eng-42: #ff7588;
+      --color-morrison: #9333ea;
+      --color-dhoy: #f97316;
+      --color-pta: #65a30d;
+      --color-eng-13: #16a34a;
+      --color-eng-23: #0284c7;
+      --color-eng-26: #0891b2;
+      --color-eng-32: #d97706;
+      --color-eng-42: #e11d48;
 
       /* Status Colors */
-      --urgent-bg: #fce8e6;
-      --urgent-text: #c5221f;
-      --progress-bg: #fef7e0;
-      --progress-text: #b06000;
-      --completed-bg: #e6f4ea;
-      --completed-text: #137333;
-      --notstarted-bg: #f1f3f4;
-      --notstarted-text: #5f6368;
-      --stale-bg: #fff4e6;
-      --stale-text: #d9480f;
+      --urgent-bg: #fef2f2;
+      --urgent-border: #ef4444;
+      --urgent-text: #991b1b;
+      --progress-bg: #fffbe3;
+      --progress-border: #f59e0b;
+      --progress-text: #b45309;
+      --completed-bg: #f0fdf4;
+      --completed-border: #22c55e;
+      --completed-text: #15803d;
+      --notstarted-bg: #f3f4f6;
+      --notstarted-text: #374151;
+      --stale-bg: #fff7ed;
+      --stale-border: #f97316;
+      --stale-text: #c2410c;
+    }
+
+    * {
+      box-sizing: border-box;
     }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       background-color: var(--bg);
-      color: var(--text);
+      color: var(--text-main);
       margin: 0;
-      padding: 20px;
-      line-height: 1.4;
+      padding: 24px 16px;
+      line-height: 1.5;
+      font-size: 15px;
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1280px;
       margin: 0 auto;
     }
 
@@ -56,21 +67,25 @@
       flex-wrap: wrap;
       background: var(--card-bg);
       padding: 20px 24px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
       margin-bottom: 20px;
+      border: 1px solid var(--border);
     }
 
     .header-title h1 {
       margin: 0;
-      font-size: 24px;
+      font-size: 26px;
+      font-weight: 800;
       color: var(--primary);
+      letter-spacing: -0.5px;
     }
 
     .header-title p {
       margin: 4px 0 0 0;
-      font-size: 14px;
-      color: #5f6368;
+      font-size: 15px;
+      color: var(--text-muted);
+      font-weight: 500;
     }
 
     .widget-box {
@@ -80,137 +95,179 @@
     }
 
     .widget {
-      background: #f1f3f4;
-      padding: 8px 14px;
-      border-radius: 8px;
+      background: #f8fafc;
+      padding: 10px 18px;
+      border-radius: 10px;
       text-align: center;
+      border: 1px solid var(--border);
     }
 
     .widget .val {
-      font-size: 15px;
-      font-weight: bold;
+      font-size: 17px;
+      font-weight: 800;
       color: var(--primary);
     }
 
     .widget .lbl {
-      font-size: 10px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #5f6368;
+      letter-spacing: 0.6px;
+      color: var(--text-muted);
+      font-weight: 700;
     }
 
     /* Focus Mode Bar */
     .focus-mode-card {
-      background: #eef3fc;
-      border: 1px solid #cce0ff;
-      border-radius: 12px;
-      padding: 12px 18px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      padding: 14px 20px;
       margin-bottom: 20px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
     }
 
     .focus-mode-title {
-      font-weight: bold;
-      font-size: 14px;
-      color: #1a73e8;
+      font-weight: 800;
+      font-size: 15px;
+      color: #1e40af;
     }
 
     .focus-btn-group {
       display: flex;
-      gap: 8px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
     .focus-btn {
-      padding: 6px 14px;
-      border: 1px solid #1a73e8;
+      padding: 8px 16px;
+      border: 1.5px solid #3b82f6;
       border-radius: 20px;
       background: #ffffff;
-      color: #1a73e8;
-      font-size: 12px;
-      font-weight: bold;
+      color: #1d4ed8;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .focus-btn:hover {
+      background: #dbeafe;
     }
 
     .focus-btn.active {
-      background: #1a73e8;
+      background: #2563eb;
       color: #ffffff;
+      border-color: #2563eb;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
     }
 
-    /* Scratchpad Quick Capture Area */
+    /* Quick Scratchpad Area */
     .scratchpad-card {
-      background: #fff9db;
-      border: 2px dashed #f59f00;
-      border-radius: 12px;
+      background: #fffbeb;
+      border: 2px dashed #f59e0b;
+      border-radius: 14px;
       padding: 16px 20px;
       margin-bottom: 20px;
     }
 
     .scratchpad-card h3 {
-      margin: 0 0 8px 0;
-      color: #b57600;
-      font-size: 15px;
+      margin: 0 0 10px 0;
+      color: #b45309;
+      font-size: 16px;
+      font-weight: 800;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 8px;
+      gap: 10px;
     }
 
     .scratchpad-input {
       width: 100%;
-      border: 1px solid #ffe066;
-      border-radius: 6px;
-      padding: 10px;
-      font-size: 13px;
+      border: 1.5px solid #fcd34d;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 14px;
       font-family: inherit;
       box-sizing: border-box;
       resize: vertical;
-      min-height: 55px;
+      min-height: 60px;
       background: #ffffff;
     }
 
     .scratchpad-input:focus {
       outline: none;
-      border-color: #f59f00;
-      box-shadow: 0 0 0 2px rgba(245, 159, 0, 0.2);
+      border-color: #d97706;
+      box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+    }
+
+    /* Side-by-side Top Banners (2-Column Grid) */
+    .top-banner-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .today-banner {
+      background: #eff6ff;
+      border: 2px solid #60a5fa;
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin: 0;
+    }
+
+    .stale-banner {
+      background: var(--stale-bg);
+      border: 2px solid var(--stale-border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      margin: 0;
+    }
+
+    .today-banner h3, .stale-banner h3 {
+      margin: 0 0 12px 0;
+      font-size: 17px;
+      font-weight: 800;
     }
 
     /* Timetable & Events Visual Card */
     .timetable-card {
       background: var(--card-bg);
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      padding: 20px 24px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
       margin-bottom: 20px;
+      border: 1px solid var(--border);
     }
 
     .tt-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .tt-header h3 {
       margin: 0;
-      font-size: 16px;
+      font-size: 18px;
+      font-weight: 800;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
     .tt-toggle-btn {
-      background: #e8f0fe;
+      background: #eff6ff;
       color: var(--primary);
-      border: 1px solid var(--primary);
-      padding: 6px 14px;
+      border: 1.5px solid var(--primary);
+      padding: 6px 16px;
       border-radius: 20px;
-      font-weight: bold;
+      font-weight: 700;
       cursor: pointer;
       font-size: 13px;
     }
@@ -219,171 +276,213 @@
       width: 100%;
       border-collapse: collapse;
       margin-top: 10px;
-      font-size: 12px;
+      font-size: 13px;
       text-align: center;
     }
 
     .tt-table th, .tt-table td {
-      border: 1px solid #c0c0c0;
-      padding: 8px;
+      border: 1px solid #d1d5db;
+      padding: 9px 6px;
       vertical-align: middle;
     }
 
     .tt-table th {
-      background: #f1f3f4;
-      font-weight: bold;
+      background: #f8fafc;
+      font-weight: 800;
+      color: var(--text-main);
     }
 
-    /* Auto Highlight Live Period */
     .cell-now {
-      box-shadow: inset 0 0 0 3px #1a73e8 !important;
+      box-shadow: inset 0 0 0 3px #2563eb !important;
       animation: pulse-border 2s infinite;
       position: relative;
     }
 
     @keyframes pulse-border {
-      0% { box-shadow: inset 0 0 0 3px #1a73e8; }
-      50% { box-shadow: inset 0 0 0 4px #d93025; }
-      100% { box-shadow: inset 0 0 0 3px #1a73e8; }
+      0% { box-shadow: inset 0 0 0 3px #2563eb; }
+      50% { box-shadow: inset 0 0 0 4px #dc2626; }
+      100% { box-shadow: inset 0 0 0 3px #2563eb; }
     }
 
-    .cell-break { background: #e0e0e0; font-weight: bold; color: #495057; }
-    .cell-personal-lunch { background: #c2bbbb; color: #ffffff; font-weight: bold; }
-    .cell-duty { background: #ffe8cc; color: #d9480f; font-weight: bold; border: 2px solid #ff9800 !important; }
-    .cell-meeting { background: #fff3bf; color: #b57600; font-weight: bold; border: 1.5px dashed #f59f00; }
-    .cell-13 { background: #a9e34b; font-weight: bold; color: #103000; }
-    .cell-23 { background: #a5d8ff; font-weight: bold; color: #002b4d; }
-    .cell-26 { background: #66d9e8; font-weight: bold; color: #003740; }
-    .cell-32 { background: #d97706; color: #fff; font-weight: bold; }
-    .cell-42 { background: #ff7588; color: #fff; font-weight: bold; }
-    .cell-ctp { background: #ffe066; font-weight: bold; }
-    .cell-pshe { background: #f1f3f4; font-style: italic; }
+    .cell-break { background: #e5e7eb; font-weight: 700; color: #374151; }
+    .cell-personal-lunch { background: #9ca3af; color: #ffffff; font-weight: 700; }
+    .cell-duty { background: #ffedd5; color: #c2410c; font-weight: 800; border: 2px solid #f97316 !important; }
+    .cell-meeting { background: #fef3c7; color: #b45309; font-weight: 800; border: 1.5px dashed #f59e0b; }
+    .cell-13 { background: #dcfce7; font-weight: 800; color: #14532d; }
+    .cell-23 { background: #e0f2fe; font-weight: 800; color: #075985; }
+    .cell-26 { background: #cffafe; font-weight: 800; color: #155e75; }
+    .cell-32 { background: #fef3c7; color: #78350f; font-weight: 800; }
+    .cell-42 { background: #ffe4e6; color: #881337; font-weight: 800; }
+    .cell-ctp { background: #fef9c3; font-weight: 800; }
+    .cell-pshe { background: #f3f4f6; font-style: italic; font-weight: 600; }
 
     /* Events Section */
     .events-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 20px;
       margin-bottom: 20px;
     }
 
     .events-box {
-      background: #eef3fc;
-      border: 1px solid #cce0ff;
-      border-radius: 12px;
-      padding: 16px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 14px;
+      padding: 18px 20px;
     }
 
     .events-box h4 {
-      margin: 0 0 10px 0;
-      color: #1a73e8;
-      font-size: 15px;
+      margin: 0 0 12px 0;
+      color: #1e40af;
+      font-size: 16px;
+      font-weight: 800;
     }
 
     .event-item {
       background: #ffffff;
-      padding: 8px 12px;
-      border-radius: 6px;
-      margin-bottom: 6px;
-      font-size: 13px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 600;
       border-left: 4px solid var(--primary);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
     }
 
-    /* Banners & Affirmations */
-    .today-banner {
-      background: #e8f0fe;
-      border: 2px solid var(--primary);
-      border-radius: 12px;
-      padding: 16px 20px;
-      margin-bottom: 16px;
-    }
-
-    .stale-banner {
-      background: var(--stale-bg);
-      border: 2px solid var(--stale-text);
-      border-radius: 12px;
-      padding: 16px 20px;
+    /* Side-by-side Affirmations & Brain Dump Grid */
+    .mid-tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 20px;
       margin-bottom: 20px;
     }
-
-    .today-banner h3, .stale-banner h3 { margin: 0 0 10px 0; font-size: 16px; }
 
     .affirmation-card {
-      background: #fef8e7;
-      border: 1px solid #fce8e6;
-      border-radius: 12px;
-      padding: 18px 20px;
-      margin-bottom: 20px;
+      background: #fefce8;
+      border: 1.5px solid #fef08a;
+      border-radius: 14px;
+      padding: 20px;
+      margin: 0;
     }
 
-    .affirmation-card h3 { margin: 0 0 12px 0; color: #b06000; font-size: 16px; }
+    .affirmation-card h3 { margin: 0 0 12px 0; color: #a16207; font-size: 17px; font-weight: 800; }
 
     .affirmation-list { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
 
     .affirmation-item {
       background: #ffffff;
-      padding: 8px 12px;
-      border-radius: 6px;
+      padding: 10px 14px;
+      border-radius: 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-left: 4px solid #f59f00;
+      border-left: 4px solid #eab308;
       font-size: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
     }
 
-    .controls-card, .brain-dump-card {
+    .brain-dump-card {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      border: 1px solid var(--border);
+      margin: 0;
+    }
+
+    .brain-dump-card h3 {
+      margin: 0 0 12px 0;
+      font-size: 17px;
+      font-weight: 800;
+    }
+
+    .controls-card {
       background: var(--card-bg);
       padding: 18px 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      margin-bottom: 20px;
+      border-radius: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      margin-bottom: 24px;
+      border: 1px solid var(--border);
     }
 
     .search-filter-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 
     .search-input {
-      flex: 1; min-width: 200px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 14px;
+      flex: 1; min-width: 240px; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; font-weight: 500;
     }
+    .search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
 
     .filter-btn {
-      padding: 6px 12px; border: 1px solid var(--border); border-radius: 16px; background: #f1f3f4; font-size: 12px; font-weight: 600; cursor: pointer;
+      padding: 7px 14px; border: 1px solid var(--border); border-radius: 20px; background: #f8fafc; font-size: 13px; font-weight: 700; cursor: pointer; color: var(--text-muted); transition: all 0.15s ease;
     }
 
-    .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .filter-btn.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 2px 6px rgba(37,99,235,0.25); }
 
-    .backup-row { display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px; }
+    .backup-row { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }
 
     .input-group { display: flex; gap: 10px; flex-wrap: wrap; }
 
     .input-group input, .input-group select {
-      padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 13px; outline: none;
+      padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; background: #ffffff;
     }
 
     .input-group input[type="text"] { flex: 1; min-width: 200px; }
 
     .input-group button {
-      background: var(--primary); color: white; border: none; padding: 10px 18px; border-radius: 6px; font-weight: bold; cursor: pointer;
+      background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; font-size: 14px; font-weight: 800; cursor: pointer; transition: background 0.15s ease;
     }
+    .input-group button:hover { background: var(--primary-hover); }
 
     .section-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin: 28px 0 12px 0;
-      padding-bottom: 6px;
+      font-size: 19px;
+      font-weight: 800;
+      margin: 32px 0 16px 0;
+      padding-bottom: 8px;
       border-bottom: 2px solid var(--border);
       cursor: pointer;
       user-select: none;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      color: var(--text-main);
     }
 
     .section-title:hover {
       color: var(--primary);
     }
 
+    /* Modern 2-Column Task Cards Grid */
+    .tasks-grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(560px, 1fr));
+      gap: 16px;
+    }
+
+    @media (max-width: 768px) {
+      .tasks-grid-container {
+        grid-template-columns: 1fr;
+      }
+      .top-banner-grid, .mid-tools-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
     .task-card {
-      background: var(--card-bg); border-radius: 8px; padding: 14px 18px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border-left: 6px solid #dadce0;
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 16px 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      border: 1px solid #e5e7eb;
+      border-left: 8px solid #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .task-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
     }
 
     .task-card.role-PTA { border-left-color: var(--color-pta); }
@@ -396,32 +495,58 @@
     .task-card.class-42 { border-left-color: var(--color-eng-42); }
 
     .task-card.urgent-border {
-      box-shadow: 0 0 0 2px var(--urgent-text), 0 2px 6px rgba(197, 34, 31, 0.15); background-color: #fff9f8;
+      box-shadow: 0 0 0 2px var(--urgent-border), 0 4px 12px rgba(239, 68, 68, 0.12);
+      background-color: #fef2f2;
     }
 
-    .task-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .task-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
     .task-info { flex: 1; }
-    .task-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
-    .task-meta { font-size: 12px; color: #5f6368; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .worktype-tag { background: #e9ecef; color: #495057; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
-    .created-tag { font-size: 11px; color: #888; font-style: italic; }
-
-    .task-notes-area { margin-top: 10px; padding-top: 8px; border-top: 1px dashed var(--border); }
-    .notes-input {
-      width: 100%; border: 1px solid var(--border); border-radius: 6px; padding: 8px; font-size: 13px; font-family: inherit; box-sizing: border-box; resize: vertical; min-height: 38px; background: #fafafa;
+    .task-title { font-weight: 800; font-size: 17px; color: #0f172a; margin-bottom: 8px; line-height: 1.35; }
+    .task-meta { font-size: 13px; color: #475569; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+    
+    /* High contrast Pill Badges */
+    .class-tag {
+      padding: 3px 10px; border-radius: 6px; font-size: 12px; font-weight: 800; color: #ffffff; letter-spacing: 0.3px;
     }
-    .notes-input:focus { background: #ffffff; border-color: var(--primary); outline: none; }
+    .class-tag.tag-class-13 { background: var(--color-eng-13); color: #ffffff; }
+    .class-tag.tag-class-23 { background: var(--color-eng-23); color: #ffffff; }
+    .class-tag.tag-class-26 { background: var(--color-eng-26); color: #ffffff; }
+    .class-tag.tag-class-32 { background: var(--color-eng-32); color: #ffffff; }
+    .class-tag.tag-class-42 { background: var(--color-eng-42); color: #ffffff; }
+    .class-tag.tag-PTA { background: var(--color-pta); color: #ffffff; }
+    .class-tag.tag-DHOY { background: var(--color-dhoy); color: #ffffff; }
+    .class-tag.tag-House { background: var(--color-morrison); color: #ffffff; }
 
-    .action-btn { color: #5f6368; cursor: pointer; font-size: 12px; border: none; background: #f1f3f4; padding: 4px 8px; border-radius: 4px; margin-left: 2px; }
-    .action-btn:hover { background: #e0e0e0; color: #202124; }
-    .snooze-btn { color: var(--primary); background: #e8f0fe; font-weight: 600; }
-    .stamp-btn { background: #e6f4ea; color: #137333; font-weight: 600; }
+    .worktype-tag { background: #e2e8f0; color: #334155; padding: 3px 10px; border-radius: 6px; font-size: 12px; font-weight: 700; }
+    .due-date-text { font-weight: 800; color: #1e293b; }
+    .created-tag { font-size: 12px; color: #64748b; font-style: italic; }
 
-    .chip { padding: 6px 12px; border-radius: 16px; font-size: 12px; font-weight: 600; cursor: pointer; user-select: none; display: inline-block; text-align: center; min-width: 90px; }
-    .chip.urgent { background: var(--urgent-bg); color: var(--urgent-text); }
-    .chip.in-progress { background: var(--progress-bg); color: var(--progress-text); }
-    .chip.completed { background: var(--completed-bg); color: var(--completed-text); text-decoration: line-through; opacity: 0.7; }
-    .chip.not-started { background: var(--notstarted-bg); color: var(--notstarted-text); }
+    .quick-actions-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .task-notes-area { margin-top: 12px; padding-top: 10px; border-top: 1px dashed #cbd5e1; }
+    .notes-input {
+      width: 100%; border: 1px solid #cbd5e1; border-radius: 8px; padding: 10px; font-size: 14px; font-family: inherit; box-sizing: border-box; resize: vertical; min-height: 42px; background: #f8fafc; color: #0f172a;
+    }
+    .notes-input:focus { background: #ffffff; border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+
+    .action-btn { color: #475569; cursor: pointer; font-size: 12px; font-weight: 700; border: none; background: #f1f5f9; padding: 5px 10px; border-radius: 6px; transition: all 0.15s ease; }
+    .action-btn:hover { background: #e2e8f0; color: #0f172a; }
+    .snooze-btn { color: #1d4ed8; background: #dbeafe; font-weight: 700; }
+    .snooze-btn:hover { background: #bfdbfe; }
+    .stamp-btn { background: #dcfce7; color: #15803d; font-weight: 700; }
+    .stamp-btn:hover { background: #bbf7d0; }
+
+    .chip { padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 800; cursor: pointer; user-select: none; display: inline-block; text-align: center; min-width: 100px; }
+    .chip.urgent { background: var(--urgent-bg); color: var(--urgent-text); border: 1px solid var(--urgent-border); }
+    .chip.in-progress { background: var(--progress-bg); color: var(--progress-text); border: 1px solid var(--progress-border); }
+    .chip.completed { background: var(--completed-bg); color: var(--completed-text); border: 1px solid var(--completed-border); text-decoration: line-through; opacity: 0.75; }
+    .chip.not-started { background: var(--notstarted-bg); color: var(--notstarted-text); border: 1px solid #d1d5db; }
   </style>
 </head>
 <body>
@@ -472,6 +597,19 @@
     ></textarea>
   </div>
 
+  <!-- Side-by-Side Top Alert Banners -->
+  <div class="top-banner-grid">
+    <div class="today-banner" id="today-banner">
+      <h3 style="color: #1e40af;">📅 Due Today & Overdue Items</h3>
+      <div id="today-container"></div>
+    </div>
+
+    <div class="stale-banner" id="stale-banner" style="display:none;">
+      <h3 style="color: #c2410c;">⚠️ Floating Tasks (>7 Days Old — No Due Date)</h3>
+      <div id="stale-container"></div>
+    </div>
+  </div>
+
   <!-- Events Calendar Section -->
   <div class="events-grid" id="events-section">
     <div class="events-box">
@@ -497,27 +635,47 @@
     </div>
   </div>
 
-  <!-- Due Today & Overdue Banner -->
-  <div class="today-banner" id="today-banner">
-    <h3>📅 Due Today & Overdue Items</h3>
-    <div id="today-container"></div>
-  </div>
-
-  <!-- Dynamic 7+ Days Floating Task Reminder Banner -->
-  <div class="stale-banner" id="stale-banner" style="display:none;">
-    <h3>⚠️ Floating Tasks (>7 Days Old — No Due Date Assigned)</h3>
-    <div id="stale-container"></div>
-  </div>
-
-  <!-- Weekly Student Affirmation Widget -->
-  <div class="affirmation-card" id="affirmations-section">
-    <h3>🌟 Weekly Student Affirmations</h3>
-    <div class="input-group">
-      <input type="text" id="aff-name" placeholder="Student Name & Class/House (e.g. Amelia 4H)" />
-      <input type="text" id="aff-reason" placeholder="Reason for Affirmation..." />
-      <button onclick="addAffirmation()">+ Add Affirmation</button>
+  <!-- Side-by-Side Affirmations & Brain Dump Grid -->
+  <div class="mid-tools-grid">
+    <!-- Weekly Student Affirmation Widget -->
+    <div class="affirmation-card" id="affirmations-section">
+      <h3>🌟 Weekly Student Affirmations</h3>
+      <div class="input-group">
+        <input type="text" id="aff-name" placeholder="Student Name & Class (e.g. Amelia 4H)" />
+        <input type="text" id="aff-reason" placeholder="Reason for Affirmation..." />
+        <button onclick="addAffirmation()">+ Add</button>
+      </div>
+      <div class="affirmation-list" id="affirmation-list"></div>
     </div>
-    <div class="affirmation-list" id="affirmation-list"></div>
+
+    <!-- Quick Brain Dump Tool -->
+    <div class="brain-dump-card" id="braindump-section">
+      <h3>💡 Quick Brain Dump / New Task</h3>
+      <div class="input-group">
+        <input type="text" id="new-task-text" placeholder="Type task or raw info here..." />
+        <select id="new-task-role">
+          <option value="PTA">PTA Coordinator</option>
+          <option value="ENG-1.3">ENG 1.3</option>
+          <option value="ENG-2.3">ENG 2.3</option>
+          <option value="ENG-2.6">ENG 2.6</option>
+          <option value="ENG-3.2">ENG 3.2</option>
+          <option value="ENG-4.2">ENG 4.2</option>
+          <option value="DHOY">Deputy Head of Year (F.1)</option>
+          <option value="House">Head of Morrison House</option>
+        </select>
+        <select id="new-task-worktype">
+          <option value="Admin & Paperwork">📄 Admin & Paperwork</option>
+          <option value="Event Attendance">🏟️ Event Attendance</option>
+          <option value="Liaison & Email">💬 Liaison & Email</option>
+          <option value="SEQTA Logging">📧 SEQTA / Logging</option>
+          <option value="Pastoral Care">💛 Pastoral Care</option>
+          <option value="Physical Duty">🚶 Physical Duty</option>
+          <option value="Marking & Grading">✏️ Marking & Grading</option>
+        </select>
+        <input type="date" id="new-task-date" />
+        <button onclick="addTask()">Add Task</button>
+      </div>
+    </div>
   </div>
 
   <!-- Search & Filter Bar -->
@@ -538,70 +696,41 @@
     </div>
   </div>
 
-  <!-- Quick Brain Dump Tool -->
-  <div class="brain-dump-card" id="braindump-section">
-    <h3>💡 Quick Brain Dump / New Task</h3>
-    <div class="input-group">
-      <input type="text" id="new-task-text" placeholder="Type task or raw info here..." />
-      <select id="new-task-role">
-        <option value="PTA">PTA Coordinator</option>
-        <option value="ENG-1.3">ENG 1.3</option>
-        <option value="ENG-2.3">ENG 2.3</option>
-        <option value="ENG-2.6">ENG 2.6</option>
-        <option value="ENG-3.2">ENG 3.2</option>
-        <option value="ENG-4.2">ENG 4.2</option>
-        <option value="DHOY">Deputy Head of Year (F.1)</option>
-        <option value="House">Head of Morrison House</option>
-      </select>
-      <select id="new-task-worktype">
-        <option value="Admin & Paperwork">📄 Admin & Paperwork</option>
-        <option value="Event Attendance">🏟️ Event Attendance</option>
-        <option value="Liaison & Email">💬 Liaison & Email</option>
-        <option value="SEQTA Logging">📧 SEQTA / Logging</option>
-        <option value="Pastoral Care">💛 Pastoral Care</option>
-        <option value="Physical Duty">🚶 Physical Duty</option>
-        <option value="Marking & Grading">✏️ Marking & Grading</option>
-      </select>
-      <input type="date" id="new-task-date" />
-      <button onclick="addTask()">Add Task</button>
-    </div>
-  </div>
-
   <!-- Priority Alert Section -->
   <div id="urgent-section" style="display: none;">
-    <div class="section-title" style="color: var(--urgent-text);">
+    <div class="section-title" style="color: var(--urgent-border);">
       🚨 Urgent & Next Up (Auto-Prioritized)
     </div>
-    <div id="urgent-container"></div>
+    <div id="urgent-container" class="tasks-grid-container"></div>
   </div>
 
-  <!-- Role Categories with Collapsible Accordions -->
+  <!-- Role Categories with Collapsible Accordions & 2-Column Grid Containers -->
   <div id="role-pta-block">
     <div class="section-title" onclick="toggleSection('pta-container')">
-      <span>📌 PTA Coordinator</span> <span style="font-size:12px;">▼ Toggle</span>
+      <span>📌 PTA Coordinator</span> <span style="font-size:13px; font-weight:600; color: var(--text-muted);">▼ Toggle</span>
     </div>
-    <div id="pta-container"></div>
+    <div id="pta-container" class="tasks-grid-container"></div>
   </div>
 
   <div id="role-english-block">
     <div class="section-title" onclick="toggleSection('english-container')">
-      <span>📚 Teacher of English — Marking</span> <span style="font-size:12px;">▼ Toggle</span>
+      <span>📚 Teacher of English — Marking</span> <span style="font-size:13px; font-weight:600; color: var(--text-muted);">▼ Toggle</span>
     </div>
-    <div id="english-container"></div>
+    <div id="english-container" class="tasks-grid-container"></div>
   </div>
 
   <div id="role-dhoy-block">
     <div class="section-title" onclick="toggleSection('dhoy-container')">
-      <span>🏫 Deputy Head of Year (F.1)</span> <span style="font-size:12px;">▼ Toggle</span>
+      <span>🏫 Deputy Head of Year (F.1)</span> <span style="font-size:13px; font-weight:600; color: var(--text-muted);">▼ Toggle</span>
     </div>
-    <div id="dhoy-container"></div>
+    <div id="dhoy-container" class="tasks-grid-container"></div>
   </div>
 
   <div id="role-house-block">
     <div class="section-title" onclick="toggleSection('house-container')">
-      <span>🏆 Head of Morrison House</span> <span style="font-size:12px;">▼ Toggle</span>
+      <span>🏆 Head of Morrison House</span> <span style="font-size:13px; font-weight:600; color: var(--text-muted);">▼ Toggle</span>
     </div>
-    <div id="house-container"></div>
+    <div id="house-container" class="tasks-grid-container"></div>
   </div>
 </div>
 
@@ -619,13 +748,11 @@
     return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
   }
 
-  // Collapsible Accordion Toggle
   function toggleSection(containerId) {
     const el = document.getElementById(containerId);
-    if (el) el.style.display = el.style.display === 'none' ? 'block' : 'none';
+    if (el) el.style.display = el.style.display === 'none' ? 'grid' : 'none';
   }
 
-  // Fixed Focus Presets Logic (Does not get reset by render)
   function setFocusMode(mode, btn) {
     currentFocusMode = mode;
     document.querySelectorAll('.focus-btn').forEach(b => b.classList.remove('active'));
@@ -636,20 +763,17 @@
     const isLeadership = mode === 'LEADERSHIP';
     const isMorning = mode === 'MORNING';
 
-    // Role blocks
     document.getElementById('role-english-block').style.display = (showAll || isTeaching) ? 'block' : 'none';
     document.getElementById('role-pta-block').style.display = (showAll || isLeadership) ? 'block' : 'none';
     document.getElementById('role-dhoy-block').style.display = (showAll || isLeadership) ? 'block' : 'none';
     document.getElementById('role-house-block').style.display = (showAll || isLeadership) ? 'block' : 'none';
 
-    // Morning Rush Hiding
     document.getElementById('timetable-section').style.display = isMorning ? 'none' : 'block';
     document.getElementById('braindump-section').style.display = isMorning ? 'none' : 'block';
     document.getElementById('affirmations-section').style.display = isMorning ? 'none' : 'block';
     document.getElementById('controls-section').style.display = isMorning ? 'none' : 'block';
   }
 
-  // Scratchpad Logic & Convert to Task
   let scratchpadNote = localStorage.getItem('teacher_dashboard_scratchpad') || '';
 
   function loadScratchpad() {
@@ -694,7 +818,6 @@
     alert("Converted into a DHOY task due today!");
   }
 
-  // One-Click Stamp Action Generator
   function appendStamp(id, stampText) {
     const task = tasks.find(t => t.id === id);
     if (task) {
@@ -705,7 +828,6 @@
     }
   }
 
-  // 100% Accurate Confirmed Staff Calendar Data
   const schoolEvents = [
     { date: "2026-10-05", title: "SWT Meeting / Coffee Meeting F.1 & 2 / HKSSF Swimming" },
     { date: "2026-10-06", title: "KMS Survey (F.4) / Coffee Meeting F.3-6 / HKSSF Swimming" },
@@ -806,7 +928,7 @@
   function renderTimetable() {
     const table = document.getElementById('timetable-table');
     const rows = timetableData[currentWeekView];
-    const currentDayIdx = now.getDay(); // 1 = Mon, 5 = Fri
+    const currentDayIdx = now.getDay();
     const currentTimeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
 
     let html = `
@@ -930,7 +1052,7 @@
       item.className = 'affirmation-item';
       item.innerHTML = `
         <div><strong>🌟 ${a.name}</strong> ${a.reason ? '— ' + a.reason : ''}</div>
-        <button class="action-btn" onclick="deleteAffirmation(${a.id})">✓ Done / Clear</button>
+        <button class="action-btn" onclick="deleteAffirmation(${a.id})">✓ Done</button>
       `;
       list.appendChild(item);
     });
@@ -1031,7 +1153,7 @@
 
   function exportData() {
     const fullBackup = {
-      version: "15.0",
+      version: "16.0",
       exportDate: new Date().toISOString(),
       user: "Lovepreet (DHoY)",
       scratchpadNote: scratchpadNote,
@@ -1120,9 +1242,9 @@
       if (isDueTodayOrOverdue) {
         todayCount++;
         const todayItem = document.createElement('div');
-        todayItem.style.cssText = "background:#fff; padding:8px 12px; margin-bottom:6px; border-radius:6px; display:flex; justify-content:space-between; align-items:center; font-size:14px; border-left:4px solid #1a73e8;";
+        todayItem.style.cssText = "background:#fff; padding:10px 14px; margin-bottom:8px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; font-size:14px; border-left:4px solid #2563eb; box-shadow: 0 1px 3px rgba(0,0,0,0.03);";
         todayItem.innerHTML = `
-          <div><strong>${task.title}</strong> (${task.role}) ${task.date < todayStr ? '<span style="color:red; font-size:11px;">[OVERDUE]</span>' : ''}</div>
+          <div><strong>${task.title}</strong> (${task.role}) ${task.date < todayStr ? '<span style="color:#dc2626; font-weight:800;">[OVERDUE]</span>' : ''}</div>
           <button class="action-btn" onclick="toggleStatus(${task.id})">Mark Done</button>
         `;
         todayContainer.appendChild(todayItem);
@@ -1131,9 +1253,9 @@
       if (isStale) {
         staleCount++;
         const staleItem = document.createElement('div');
-        staleItem.style.cssText = "background:#fff; padding:8px 12px; margin-bottom:6px; border-radius:6px; display:flex; justify-content:space-between; align-items:center; font-size:13px; border-left:4px solid #d9480f;";
+        staleItem.style.cssText = "background:#fff; padding:10px 14px; margin-bottom:8px; border-radius:8px; display:flex; justify-content:space-between; align-items:center; font-size:14px; border-left:4px solid #ea580c; box-shadow: 0 1px 3px rgba(0,0,0,0.03);";
         staleItem.innerHTML = `
-          <div><strong>${task.title}</strong> (${task.role}) — <span style="color:#d9480f; font-weight:bold;">Created ${daysOld} days ago</span></div>
+          <div><strong>${task.title}</strong> (${task.role}) — <span style="color:#ea580c; font-weight:800;">Created ${daysOld} days ago</span></div>
           <div>
             <button class="action-btn snooze-btn" onclick="assignDatePrompt(${task.id})">📅 Assign Date</button>
             <button class="action-btn" onclick="resetCreationTimer(${task.id})">⏳ Reset 7 Days</button>
@@ -1163,27 +1285,48 @@
         'completed': '✓ Done'
       };
 
+      // Generate explicit text label based on subClass or role
+      let displayLabel = "";
+      let tagCssClass = "";
+      if (task.subClass === "class-13") { displayLabel = "1.3"; tagCssClass = "tag-class-13"; }
+      else if (task.subClass === "class-23") { displayLabel = "2.3"; tagCssClass = "tag-class-23"; }
+      else if (task.subClass === "class-26") { displayLabel = "2.6"; tagCssClass = "tag-class-26"; }
+      else if (task.subClass === "class-32") { displayLabel = "3.2"; tagCssClass = "tag-class-32"; }
+      else if (task.subClass === "class-42") { displayLabel = "4.2"; tagCssClass = "tag-class-42"; }
+      else if (task.role === "PTA") { displayLabel = "PTA"; tagCssClass = "tag-PTA"; }
+      else if (task.role === "DHOY") { displayLabel = "DHOY"; tagCssClass = "tag-DHOY"; }
+      else if (task.role === "House") { displayLabel = "House"; tagCssClass = "tag-House"; }
+
+      const labelBadgeHtml = displayLabel ? `<span class="class-tag ${tagCssClass}">${displayLabel}</span>` : '';
+
       card.innerHTML = `
-        <div class="task-header">
-          <div class="task-info">
-            <div class="task-title">${task.title}</div>
-            <div class="task-meta">
-              <span class="worktype-tag">${task.workType || 'General'}</span>
-              <span>${task.date ? '📅 Due: ' + formatDateShort(task.date) : 'No fixed date'}</span>
-              <span class="created-tag">(Created ${formatDateShort(task.createdDate || todayStr)})</span>
-              <button class="action-btn snooze-btn" onclick="snoozeTask(${task.id}, 1)">+1 Day</button>
-              <button class="action-btn snooze-btn" onclick="snoozeTask(${task.id}, 7)">+1 Wk</button>
-              <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'SEQTA Logged')">+SEQTA</button>
-              <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'Email Sent')">+Email</button>
-              <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'Parent Called')">+Call</button>
+        <div>
+          <div class="task-header">
+            <div class="task-info">
+              <div class="task-title">${task.title}</div>
+              <div class="task-meta">
+                ${labelBadgeHtml}
+                <span class="worktype-tag">${task.workType || 'General'}</span>
+                <span class="due-date-text">${task.date ? '📅 Due: ' + formatDateShort(task.date) : 'No fixed date'}</span>
+                <span class="created-tag">(Created ${formatDateShort(task.createdDate || todayStr)})</span>
+              </div>
+            </div>
+            <div>
+              <span class="chip ${task.status}" onclick="toggleStatus(${task.id})">${statusLabels[task.status]}</span>
             </div>
           </div>
-          <div>
-            <span class="chip ${task.status}" onclick="toggleStatus(${task.id})">${statusLabels[task.status]}</span>
+          
+          <div class="quick-actions-row">
+            <button class="action-btn snooze-btn" onclick="snoozeTask(${task.id}, 1)">+1 Day</button>
+            <button class="action-btn snooze-btn" onclick="snoozeTask(${task.id}, 7)">+1 Wk</button>
+            <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'SEQTA Logged')">+SEQTA</button>
+            <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'Email Sent')">+Email</button>
+            <button class="action-btn stamp-btn" onclick="appendStamp(${task.id}, 'Parent Called')">+Call</button>
             <button class="action-btn" onclick="editTask(${task.id})">✏️ Edit</button>
             <button class="action-btn" onclick="deleteTask(${task.id})">✕</button>
           </div>
         </div>
+
         <div class="task-notes-area">
           <textarea 
             class="notes-input" 
@@ -1209,7 +1352,7 @@
     });
 
     if (todayCount === 0) {
-      todayContainer.innerHTML = '<div style="font-size:13px; color:#1557b0;">🎉 Clear schedule for today! No pending items due.</div>';
+      todayContainer.innerHTML = '<div style="font-size:14px; color:#1e40af; font-weight:600;">🎉 Clear schedule for today! No pending items due.</div>';
     }
 
     document.getElementById('stale-banner').style.display = staleCount > 0 ? 'block' : 'none';
